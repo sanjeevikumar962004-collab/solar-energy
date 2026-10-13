@@ -5,7 +5,6 @@
  * 2. Login & Sign-up flow with validation constraints
  * 3. Settings updates & state binding (name, email) in user/admin dashboards
  * 4. Allowed pages check in global click handler to navigate to 404.html properly
- * 5. Footer Quick Links & Services redirection to 404
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1182,23 +1181,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 }
 
-                // Check footer links (Quick Links, Services, Legal, etc.) - route to 404
-                if (target.closest(".site-footer") || target.closest("footer")) {
-                    const link = target.closest("a");
-                    if (link) {
-                        const href = (link.getAttribute("href") || "").trim();
-                        const isLogo = link.classList.contains("footer-logo") || 
-                                       link.closest(".footer-logo") !== null || 
-                                       link.classList.contains("footer-logo-link") || 
-                                       link.classList.contains("brand-logo") ||
-                                       href === "index.html" ||
-                                       link.querySelector('img[src*="stackly"]') !== null;
-                        if (!isLogo) {
-                            shouldGoTo404 = true;
-                            break;
-                        }
-                    }
-                }
             }
 
             if (isDashboard) {

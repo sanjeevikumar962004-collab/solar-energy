@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Fleet Operations Center | Stackly Renewable Energy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="text-animations.js" defer></script>
+    <script src="validation.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #0D2119;
+            --accent: #10B981; /* Solar Emerald Green */
+            --accent-gold: #F59E0B; /* Solar Sun Gold */
+            --bg-dark: #071611; /* Deep Solar Forest Night */
+            --panel-bg: #0D221A; /* Solar Forest Glass Panel */
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: rgba(16, 185, 129, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #133a2e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Glass/Premium Panels */
+        .admin-panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-panel:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Nav Item Styles */
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(16, 185, 129, 0.08);
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background-color: var(--accent);
+            color: #071611;
+            font-weight: 700;
+        }
+
+        /* Entry Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        /* Custom Table Styling */
+        table th {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        table td {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* SPA Dashboard Section Visibility */
+        .dashboard-section {
+            display: none !important;
+        }
+        .dashboard-section.active {
+            display: block !important;
+            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Navigation (Desktop) -->
+    <aside class="w-64 bg-[#0A1D16] border-r border-emerald-500/10 h-full flex-col justify-between hidden xl:flex z-20">
+        
+        <div class="p-5 border-b border-emerald-500/10 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5 group">
+                <img src="images/stackly-logo-light.webp" alt="Stackly Logo" class="h-7 w-auto object-contain">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">Solar Fleet</span>
+            </a>
+            <span class="w-2.5 h-2.5 rounded-full bg-[var(--accent)] shadow-[0_0_10px_var(--accent)] animate-pulse"></span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-6">
+            <!-- Nav Section 1: GRID OPERATIONS -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest">Grid Operations</p>
+                    <span class="text-[10px] font-bold text-gray-500">01</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-overview" class="nav-item active">
+                        <i class="ph-fill ph-solar-panel text-xl"></i> 
+                        <span class="flex-1">Fleet Telemetry</span>
+                    </a>
+                    <a href="#section-projects" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-lightning text-xl"></i> Microgrids
+                        </div>
+                        <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full">8 Active</span>
+                    </a>
+                    <a href="#section-clients" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-users text-xl"></i> Solar Clients
+                        </div>
+                        <span class="bg-[var(--accent)]/10 text-[var(--accent)] text-xs font-bold px-2 py-0.5 rounded-full">New</span>
+                    </a>
+                    <a href="#section-team" class="nav-item">
+                        <i class="ph ph-wrench text-xl"></i> Field Engineers
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 2: SOLAR ASSETS -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest">Solar Assets</p>
+                    <span class="text-[10px] font-bold text-gray-500">02</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-showcase" class="nav-item">
+                        <i class="ph ph-sun-dim text-xl"></i> Array Showcase
+                    </a>
+                    <a href="#section-assets" class="nav-item">
+                        <i class="ph ph-cpu text-xl"></i> Inverter & Battery Hub
+                    </a>
+                    <a href="#section-case-studies" class="nav-item">
+                        <i class="ph ph-article text-xl"></i> Net-Zero Case Studies
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 3: UTILITY TARIFFS & BILLING -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest">PGE Tariffs & Billing</p>
+                    <span class="text-[10px] font-bold text-gray-500">03</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-revenue" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-currency-dollar text-xl"></i> Net Revenue
+                        </div>
+                        <span class="text-[var(--accent)] text-xs font-bold">+28%</span>
+                    </a>
+                    <a href="#section-invoices" class="nav-item">
+                        <i class="ph ph-receipt text-xl"></i> Feed-In Invoices
+                    </a>
+                    <a href="#section-proposals" class="nav-item">
+                        <i class="ph ph-file-text text-xl"></i> Interconnection Bids
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 4: SCADA & DIAGNOSTICS -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest">SCADA Diagnostics</p>
+                    <span class="text-[10px] font-bold text-gray-500">04</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-analytics" class="nav-item">
+                        <i class="ph ph-chart-line-up text-xl"></i> Irradiance Analytics
+                    </a>
+                    <a href="#section-logs" class="nav-item">
+                        <i class="ph ph-clock-counter-clockwise text-xl"></i> Grid Audit Logs
+                    </a>
+                    <a href="#section-settings" class="nav-item">
+                        <i class="ph ph-gear text-xl"></i> Fleet Settings
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-emerald-500/10">
+            <div id="logout-btn" class="flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-colors cursor-pointer group">
+                <div class="w-10 h-10 rounded-full bg-emerald-950 overflow-hidden border border-emerald-600/40 group-hover:border-[var(--accent)] transition-colors shrink-0 flex items-center justify-center text-emerald-400 font-bold s-avatar">
+                    ER
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p id="admin-profile-name" class="text-sm font-bold text-white truncate sidebarAdminName">Elena Rostova</p>
+                    <p id="admin-profile-role" class="text-xs text-emerald-400/80 truncate">Chief Solar Admin</p>
+                </div>
+                <i class="ph ph-sign-out text-gray-400 hover:text-red-400 transition-colors text-lg"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Sidebar Drawer Overlay -->
+    <div id="mobile-sidebar-drawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden xl:hidden transition-opacity">
+        <aside class="w-72 bg-[#0A1D16] border-r border-emerald-500/10 h-full flex flex-col justify-between shadow-2xl p-0">
+            <div class="p-5 border-b border-emerald-500/10 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2.5">
+                    <img src="images/stackly-logo-light.webp" alt="Stackly Logo" class="h-7 w-auto object-contain">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">Solar Fleet</span>
+                </a>
+                <button id="close-mobile-drawer" class="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white cursor-pointer">
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 space-y-6">
+                <!-- Section 1 -->
+                <div>
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest mb-2.5 px-2">Grid Operations</p>
+                    <nav class="space-y-1">
+                        <a href="#section-overview" class="nav-item active"><i class="ph-fill ph-solar-panel text-xl"></i> Fleet Telemetry</a>
+                        <a href="#section-projects" class="nav-item"><i class="ph ph-lightning text-xl"></i> Microgrids</a>
+                        <a href="#section-clients" class="nav-item"><i class="ph ph-users text-xl"></i> Solar Clients</a>
+                        <a href="#section-team" class="nav-item"><i class="ph ph-wrench text-xl"></i> Field Engineers</a>
+                    </nav>
+                </div>
+                <!-- Section 2 -->
+                <div>
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest mb-2.5 px-2">Solar Assets</p>
+                    <nav class="space-y-1">
+                        <a href="#section-showcase" class="nav-item"><i class="ph ph-sun-dim text-xl"></i> Array Showcase</a>
+                        <a href="#section-assets" class="nav-item"><i class="ph ph-cpu text-xl"></i> Inverter & Battery Hub</a>
+                        <a href="#section-case-studies" class="nav-item"><i class="ph ph-article text-xl"></i> Net-Zero Case Studies</a>
+                    </nav>
+                </div>
+                <!-- Section 3 -->
+                <div>
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest mb-2.5 px-2">PGE Tariffs & Billing</p>
+                    <nav class="space-y-1">
+                        <a href="#section-revenue" class="nav-item"><i class="ph ph-currency-dollar text-xl"></i> Net Revenue</a>
+                        <a href="#section-invoices" class="nav-item"><i class="ph ph-receipt text-xl"></i> Feed-In Invoices</a>
+                        <a href="#section-proposals" class="nav-item"><i class="ph ph-file-text text-xl"></i> Interconnection Bids</a>
+                    </nav>
+                </div>
+                <!-- Section 4 -->
+                <div>
+                    <p class="text-[10px] font-extrabold text-emerald-400/80 uppercase tracking-widest mb-2.5 px-2">SCADA Diagnostics</p>
+                    <nav class="space-y-1">
+                        <a href="#section-analytics" class="nav-item"><i class="ph ph-chart-line-up text-xl"></i> Irradiance Analytics</a>
+                        <a href="#section-logs" class="nav-item"><i class="ph ph-clock-counter-clockwise text-xl"></i> Grid Audit Logs</a>
+                        <a href="#section-settings" class="nav-item"><i class="ph ph-gear text-xl"></i> Fleet Settings</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-emerald-500/10">
+                <button onclick="localStorage.clear(); window.location.href='login.html';" class="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white/5 text-gray-300 font-semibold hover:bg-red-500/20 hover:text-red-400 transition-colors text-sm cursor-pointer">
+                    <i class="ph ph-sign-out text-lg"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-scroll-container" class="flex-1 h-full overflow-y-auto relative scroll-smooth">
+        
+        <!-- Subtle background glow -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 blur-[140px] rounded-full pointer-events-none -z-10"></div>
+
+        <!-- Mobile Header -->
+        <header class="xl:hidden bg-[var(--panel-bg)] border-b border-emerald-500/10 p-4 flex justify-between items-center sticky top-0 z-30">
+            <a href="index.html" class="text-xl font-extrabold tracking-tighter text-white flex items-center gap-2">
+                <img src="images/stackly-logo-light.webp" alt="Stackly Logo" class="h-6 w-auto object-contain">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">Admin</span>
+            </a>
+            <button id="mobile-menu-toggle" class="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white cursor-pointer">
+                <i class="ph ph-list text-xl"></i>
+            </button>
+        </header>
+
+        <div class="p-6 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-8">
+            
+            <!-- SECTION 1: OVERVIEW -->
+            <section id="section-overview" class="dashboard-section active space-y-8">
+                <!-- Page Header & Global Search -->
+                <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 fade-in-up">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Salem Microgrid Hub Online</span>
+                        </div>
+                        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter text-white mb-1">
+                            Solar Fleet Operations Center
+                        </h1>
+                        <p class="text-sm text-gray-400">Real-time telemetry for Marion & Polk county solar microgrids, battery reserves, and utility tariffs.</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 w-full md:w-auto">
+                        <!-- Search Bar -->
+                        <div class="relative w-full md:w-64">
+                            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-lg"></i>
+                            <input type="text" placeholder="Search arrays, inverters..." class="w-full bg-[#0A1D16] border border-emerald-500/20 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:border-[var(--accent)] focus:bg-[#0D221A] transition-all text-sm text-white placeholder-gray-500">
+                        </div>
+                        
+                        <button onclick="window.location.href='404.html'" class="w-10 h-10 shrink-0 rounded-full bg-[#0A1D16] border border-emerald-500/20 flex items-center justify-center hover:bg-white/10 transition-colors relative text-gray-400 hover:text-white cursor-pointer">
+                            <i class="ph ph-bell text-lg"></i>
+                            <span class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[var(--accent)] rounded-full"></span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- KPI Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 fade-in-up delay-100">
+                    <!-- Card 1 -->
+                    <a href="#section-projects" class="admin-panel p-6 flex flex-col justify-between group block cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:text-white group-hover:bg-emerald-500/20 transition-colors">
+                                <i class="ph-fill ph-solar-panel text-xl"></i>
+                            </div>
+                            <span class="flex items-center gap-1 text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-1 rounded-md">
+                                <i class="ph-bold ph-arrow-up-right"></i> +12 New
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Active Solar Arrays</p>
+                            <h2 class="text-3xl font-extrabold text-white">4,820</h2>
+                        </div>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="#section-revenue" class="admin-panel p-6 flex flex-col justify-between group block cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:text-white group-hover:bg-emerald-500/20 transition-colors">
+                                <i class="ph-fill ph-lightning text-xl"></i>
+                            </div>
+                            <span class="flex items-center gap-1 text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-1 rounded-md">
+                                <i class="ph-bold ph-arrow-up-right"></i> +18%
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Fleet Generation</p>
+                            <h2 class="text-3xl font-extrabold text-white">142.8 MWh</h2>
+                        </div>
+                    </a>
+
+                    <!-- Card 3 -->
+                    <a href="#section-clients" class="admin-panel p-6 flex flex-col justify-between group block cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:text-white group-hover:bg-emerald-500/20 transition-colors">
+                                <i class="ph-fill ph-house-line text-xl"></i>
+                            </div>
+                            <span class="flex items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md">
+                                99.8% Online
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Solar Microgrids</p>
+                            <h2 class="text-3xl font-extrabold text-white">1,240</h2>
+                        </div>
+                    </a>
+
+                    <!-- Card 4 -->
+                    <a href="#section-invoices" class="admin-panel p-6 flex flex-col justify-between group border-l-2 border-l-amber-500 block cursor-pointer">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+                                <i class="ph-fill ph-warning-circle text-xl"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-amber-400">Diagnostics</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Pending Alerts</p>
+                            <h2 class="text-3xl font-extrabold text-white">02</h2>
+                            <span class="text-xs font-semibold text-amber-400 mt-2 inline-block">Review Inverters &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Chart & Tasks Section -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 fade-in-up delay-200">
+                    <!-- Main Chart -->
+                    <div class="admin-panel p-6 xl:col-span-2">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-lg font-bold text-white">Clean Energy Generation (MWh)</h2>
+                                <p class="text-xs text-gray-400">Marion & Polk County Substation Aggregation</p>
+                            </div>
+                            <select class="bg-[#0A1D16] border border-emerald-500/20 text-gray-300 text-xs font-bold rounded-lg focus:outline-none focus:border-[var(--accent)] px-3 py-1.5 cursor-pointer">
+                                <option>Year to Date (2026)</option>
+                                <option>Last 12 Months</option>
+                            </select>
+                        </div>
+                        <div class="h-[300px] w-full">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Quick Tasks / To-Do -->
+                    <div class="admin-panel p-6 flex flex-col">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-bold text-white">Field Operations Tasks</h2>
+                            <button onclick="window.location.href='404.html'" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
+                                <i class="ph ph-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4 flex-1 overflow-y-auto pr-2">
+                            <div class="flex items-start gap-3 group cursor-pointer">
+                                <div class="w-5 h-5 mt-0.5 rounded border border-gray-600 flex items-center justify-center group-hover:border-[var(--accent)] transition-colors shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-200 group-hover:text-white transition-colors leading-tight">Inspect Phase 3 Array Inverter in West Salem</p>
+                                    <p class="text-xs text-emerald-400 mt-1">Due Today • Solar Engineering</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 group cursor-pointer">
+                                <div class="w-5 h-5 mt-0.5 rounded border border-gray-600 flex items-center justify-center group-hover:border-[var(--accent)] transition-colors shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-200 group-hover:text-white transition-colors leading-tight">Review Net Metering Interconnection with PGE</p>
+                                    <p class="text-xs text-amber-400 mt-1">High Priority • Grid Operations</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 group cursor-pointer">
+                                <div class="w-5 h-5 mt-0.5 rounded border border-gray-600 flex items-center justify-center group-hover:border-[var(--accent)] transition-colors shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-200 group-hover:text-white transition-colors leading-tight">Solar Battery Firmware Update v4.2</p>
+                                    <p class="text-xs text-gray-400 mt-1">Tomorrow, 10:00 AM • Storage Telemetry</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 opacity-60">
+                                <div class="w-5 h-5 mt-0.5 rounded bg-[var(--accent)] text-black flex items-center justify-center shrink-0">
+                                    <i class="ph-bold ph-check text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-300 line-through leading-tight">Calibrate rooftop bifacial solar sensors</p>
+                                    <p class="text-xs text-gray-500 mt-1">Completed &bull; Substation A</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: PROJECTS -->
+            <section id="section-projects" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Active Solar Microgrid Pipeline</h2>
+                        <p class="text-xs text-gray-400">Manage rooftop arrays, commercial microgrid milestones, and PTO interconnection deadlines.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--accent)] text-black text-xs font-bold px-4 py-2 rounded-xl hover:bg-white transition-colors flex items-center gap-1.5 cursor-pointer">
+                        <i class="ph ph-plus"></i> New Installation Order
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="text-gray-400 text-[10px] uppercase tracking-widest font-bold">
+                                <th>Client / Solar Array</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Target PTO</th>
+                                <th class="text-right">Capacity & Budget</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="hover:bg-white/5 transition-colors group">
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">TF</div>
+                                        <div>
+                                            <p class="font-bold text-gray-200 group-hover:text-white transition-colors">TechFlow Commercial Campus</p>
+                                            <p class="text-xs text-gray-400">120 kW Rooftop Bifacial System</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="text-gray-300">Commercial PV</span></td>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-full h-1.5 bg-gray-800 rounded-full max-w-[80px]">
+                                            <div class="h-full bg-[var(--accent)] rounded-full w-[65%]"></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-emerald-400">65%</span>
+                                    </div>
+                                </td>
+                                <td class="text-gray-300">Oct 12, 2026</td>
+                                <td class="text-right font-bold text-emerald-400">$124,500 (120 kW)</td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors group">
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">NV</div>
+                                        <div>
+                                            <p class="font-bold text-gray-200 group-hover:text-white transition-colors">Nova Vineyard & Winery</p>
+                                            <p class="text-xs text-gray-400">85 kW Agrivoltaic Tracking Array</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="text-gray-300">Agrivoltaics</span></td>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-full h-1.5 bg-gray-800 rounded-full max-w-[80px]">
+                                            <div class="h-full bg-white rounded-full w-[20%]"></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-gray-400">20%</span>
+                                    </div>
+                                </td>
+                                <td class="text-gray-300">Nov 05, 2026</td>
+                                <td class="text-right font-bold text-emerald-400">$88,000 (85 kW)</td>
+                            </tr>
+                            <tr class="hover:bg-white/5 transition-colors group">
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">AX</div>
+                                        <div>
+                                            <p class="font-bold text-gray-200 group-hover:text-white transition-colors">West Salem Eco-Estate</p>
+                                            <p class="text-xs text-gray-400">24 kW Rooftop Solar + 30kWh Battery</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="text-gray-300">Residential Microgrid</span></td>
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-full h-1.5 bg-gray-800 rounded-full max-w-[80px]">
+                                            <div class="h-full bg-yellow-500 rounded-full w-[90%]"></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-yellow-500">PGE Review</span>
+                                    </div>
+                                </td>
+                                <td class="text-gray-300">Sep 10, 2026</td>
+                                <td class="text-right font-bold text-emerald-400">$38,200 (24 kW)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 3: CLIENTS DIRECTORY -->
+            <section id="section-clients" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Solar Client Directory & Microgrid Accounts</h2>
+                        <p class="text-xs text-gray-400">Active solar homeowner retainers, farm cooperatives, and commercial microgrids.</p>
+                    </div>
+                    <span class="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1 rounded-full">1,240 Total Microgrids</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-base">Alex Morgan</span>
+                            <span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">Grid Tied</span>
+                        </div>
+                        <p class="text-xs text-gray-300">Salem Residence &bull; 10.2 kW PV + 15 kWh Battery</p>
+                        <div class="flex justify-between text-xs text-gray-400 pt-2 border-t border-white/5">
+                            <span>Generation: 34.2 kWh/day</span>
+                            <span class="text-emerald-400 font-medium">Verified Active</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-base">Willamette Farm Co-op</span>
+                            <span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">Active</span>
+                        </div>
+                        <p class="text-xs text-gray-300">Agricultural Microgrid &bull; 85 kW Dual-Axis</p>
+                        <div class="flex justify-between text-xs text-gray-400 pt-2 border-t border-white/5">
+                            <span>Generation: 380 kWh/day</span>
+                            <span class="text-[var(--accent)] hover:underline cursor-pointer">Telemetry &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-white text-base">Salem Tech Campus</span>
+                            <span class="text-[10px] font-bold bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">Pending PTO</span>
+                        </div>
+                        <p class="text-xs text-gray-300">Commercial Microgrid &bull; 240 kW Array</p>
+                        <div class="flex justify-between text-xs text-gray-400 pt-2 border-t border-white/5">
+                            <span>Projected: 980 kWh/day</span>
+                            <span class="text-[var(--accent)] hover:underline cursor-pointer">Telemetry &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+                </div>
+            </section>
+
+            <!-- SECTION 4: TEAM & ASSIGNEES -->
+            <section id="section-team" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Solar Fleet Engineering Team</h2>
+                        <p class="text-xs text-gray-400">Field engineers, SCADA technicians, and grid interconnection specialists.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-emerald-500/10 text-emerald-300 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-500/20 transition-colors cursor-pointer border border-emerald-500/20">
+                        + Dispatch Engineer
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-[var(--accent)] text-black font-extrabold flex items-center justify-center text-lg">ER</div>
+                        <h4 class="font-bold text-white text-sm">Elena Rostova</h4>
+                        <p class="text-xs text-[var(--accent)] font-medium">Chief Solar Engineer</p>
+                        <span class="inline-block text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full mt-1">4 Active Microgrids</span>
+                    </div>
+
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center text-lg">AK</div>
+                        <h4 class="font-bold text-white text-sm">Alex Kim</h4>
+                        <p class="text-xs text-emerald-400 font-medium">Inverter & SCADA Specialist</p>
+                        <span class="inline-block text-[10px] bg-white/10 text-gray-300 px-2.5 py-0.5 rounded-full mt-1">3 Active Sub-arrays</span>
+                    </div>
+
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-amber-500/20 text-amber-400 font-extrabold flex items-center justify-center text-lg">JL</div>
+                        <h4 class="font-bold text-white text-sm">Jessica Lee</h4>
+                        <p class="text-xs text-amber-400 font-medium">PGE Interconnection Lead</p>
+                        <span class="inline-block text-[10px] bg-white/10 text-gray-300 px-2.5 py-0.5 rounded-full mt-1">5 Interconnection Queues</span>
+                    </div>
+
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold flex items-center justify-center text-lg">RN</div>
+                        <h4 class="font-bold text-white text-sm">Ryan Novak</h4>
+                        <p class="text-xs text-emerald-400 font-medium">Battery Storage Architect</p>
+                        <span class="inline-block text-[10px] bg-white/10 text-gray-300 px-2.5 py-0.5 rounded-full mt-1">2 LFP Storage Banks</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: SHOWCASE -->
+            <section id="section-showcase" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Solar Installation Showcase</h2>
+                        <p class="text-xs text-gray-400">Featured clean energy projects active in the Willamette Valley.</p>
+                    </div>
+                    <a href="index.html#projects" class="bg-white/10 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-white/20 transition-colors">
+                        View Public Grid &rarr;
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">Commercial &bull; 120 kW</span>
+                        <h4 class="font-bold text-white text-base">Salem Commercial Rooftop</h4>
+                        <p class="text-xs text-gray-400">148 MWh Generated &bull; Tier-1 Bifacial</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">Agrivoltaic &bull; 85 kW</span>
+                        <h4 class="font-bold text-white text-base">Willamette Valley Greenhouse</h4>
+                        <p class="text-xs text-gray-400">92 MWh Generated &bull; Dual-Axis Trackers</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">Microgrid &bull; 240 kW</span>
+                        <h4 class="font-bold text-white text-base">Salem Community Solar Park</h4>
+                        <p class="text-xs text-gray-400">285 MWh Generated &bull; 60kWh Battery Hub</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: ASSET MANAGER -->
+            <section id="section-assets" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Solar Hardware & Equipment Fleet</h2>
+                        <p class="text-xs text-gray-400">Solar modules, hybrid inverters, battery storage packs, and smart meters.</p>
+                    </div>
+                    <span class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">4,820 Active Units</span>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <i class="ph-fill ph-solar-panel text-3xl text-emerald-400"></i>
+                        <p class="text-sm font-bold text-white">Bifacial PV Panels</p>
+                        <p class="text-[10px] text-gray-400">Tier-1 550W &bull; 4,820 Units</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <i class="ph-fill ph-cpu text-3xl text-amber-400"></i>
+                        <p class="text-sm font-bold text-white">Hybrid Inverters</p>
+                        <p class="text-[10px] text-gray-400">Stackly Hub V3 &bull; 98.4% Eff.</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <i class="ph-fill ph-battery-charging text-3xl text-emerald-400"></i>
+                        <p class="text-sm font-bold text-white">LFP PowerVaults</p>
+                        <p class="text-[10px] text-gray-400">15 kWh Modules &bull; 6,000 Cycles</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10 text-center space-y-2">
+                        <i class="ph-fill ph-shield-check text-3xl text-blue-400"></i>
+                        <p class="text-sm font-bold text-white">SCADA Breakers</p>
+                        <p class="text-[10px] text-gray-400">PGE Smart Grid Gateways</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: CASE STUDIES -->
+            <section id="section-case-studies" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Net-Zero Energy Case Studies</h2>
+                        <p class="text-xs text-gray-400">Real-world energy yields, carbon offsets, and utility bill reductions.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--accent)] text-black text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                        + New Case Study
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-white text-base">Willamette Valley Vineyard: 98% Grid Independence Achieved</h4>
+                            <p class="text-xs text-gray-400">Published on Sep 02, 2026 &bull; Marion County Agro-Solar Project</p>
+                        </div>
+                        <span class="text-xs font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2.5 py-1 rounded-full">Live Case</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-white text-base">Salem Tech Campus: Peak Demand Shaving with 240kW Array</h4>
+                            <p class="text-xs text-gray-400">Draft &bull; Finalizing Net Metering Verification Logs</p>
+                        </div>
+                        <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2.5 py-1 rounded-full">In Review</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: REVENUE & FINANCIALS -->
+            <section id="section-revenue" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Clean Energy Tariffs & Net Revenue</h2>
+                        <p class="text-xs text-gray-400">Solar feed-in credits, power purchase agreements (PPA), and maintenance revenue.</p>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">Solar Yield: 94.2%</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white/5 p-5 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Total Solar Revenue YTD</p>
+                        <h3 class="text-2xl font-extrabold text-white">$287,500</h3>
+                        <p class="text-xs text-[var(--accent)] mt-2 flex items-center gap-1"><i class="ph-bold ph-trend-up"></i> +28% vs last year</p>
+                    </div>
+                    <div class="bg-white/5 p-5 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Fleet Telemetry & Field Ops</p>
+                        <h3 class="text-2xl font-extrabold text-white">$92,000</h3>
+                        <p class="text-xs text-gray-400 mt-2">Sensors, PGE Interconnection, Audits</p>
+                    </div>
+                    <div class="bg-white/5 p-5 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Projected Q4 Feed-In</p>
+                        <h3 class="text-2xl font-extrabold text-white">$145,000</h3>
+                        <p class="text-xs text-emerald-400 mt-2">Willamette Valley Solar PPA</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: INVOICES -->
+            <section id="section-invoices" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-5">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Utility Net Metering & Interconnection Statements</h2>
+                        <p class="text-xs text-gray-400">PGE feed-in settlements, client microgrid billing, and solar incentives.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--accent)] text-black text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                        + Generate Statement
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px] text-sm">
+                        <thead>
+                            <tr class="text-gray-400 text-[10px] uppercase tracking-widest font-bold">
+                                <th>Statement ID</th>
+                                <th>Microgrid Client</th>
+                                <th>Credit / Amount</th>
+                                <th>Settlement Date</th>
+                                <th>PGE Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="py-3 font-bold text-white">#SOL-2026-08</td>
+                                <td class="py-3 text-gray-300">TechFlow Commercial Campus</td>
+                                <td class="py-3 text-emerald-400 font-bold">$6,125.00</td>
+                                <td class="py-3 text-gray-400">Oct 01, 2026</td>
+                                <td class="py-3"><span class="text-[10px] font-bold bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">Grid Sync</span></td>
+                                <td class="py-3 text-right"><button onclick="window.location.href='404.html'" class="text-xs text-[var(--accent)] hover:underline cursor-pointer">View Statement</button></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-bold text-white">#SOL-2026-07</td>
+                                <td class="py-3 text-gray-300">Nova Vineyard & Winery</td>
+                                <td class="py-3 text-white font-bold">$18,000.00</td>
+                                <td class="py-3 text-gray-400">Sep 20, 2026</td>
+                                <td class="py-3"><span class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">Paid</span></td>
+                                <td class="py-3 text-right"><button onclick="window.location.href='404.html'" class="text-xs text-gray-400 hover:text-white cursor-pointer">Receipt PDF</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 10: PROPOSALS -->
+            <section id="section-proposals" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="border-b border-emerald-500/10 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Commercial Solar & Interconnection Bids</h2>
+                        <p class="text-xs text-gray-400">Upcoming municipal microgrid quotes and PPA tenders.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--accent)] text-black text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                        + New Proposal
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-yellow-400">Under PGE Review</span>
+                        <h4 class="font-bold text-white text-base">Marion County High School 500kW Solar Proposal</h4>
+                        <p class="text-xs text-gray-400">Turnkey Scope: $132,000 &bull; 100% Rooftop Solar Offset</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/5 border border-emerald-500/10 space-y-2">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Accepted SOW</span>
+                        <h4 class="font-bold text-white text-base">Willamette Valley Agrivoltaics Phase 2</h4>
+                        <p class="text-xs text-gray-400">System Capacity: 85 kW &bull; Dual-Axis Ground Mount</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 11: ANALYTICS -->
+            <section id="section-analytics" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="border-b border-emerald-500/10 pb-4">
+                    <h2 class="text-xl font-bold text-white">Telemetry & Environmental Analytics</h2>
+                    <p class="text-xs text-gray-400">Solar irradiance index, performance ratio, and CO2 offset telemetry.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Peak Solar Irradiance</p>
+                        <h4 class="text-2xl font-extrabold text-white mt-1">940 W/m²</h4>
+                        <p class="text-xs text-emerald-400 mt-1">+12% clear sky factor</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Fleet Performance Ratio</p>
+                        <h4 class="text-2xl font-extrabold text-white mt-1">92.4%</h4>
+                        <p class="text-xs text-emerald-400 mt-1">Optimal inverter efficiency</p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-2xl border border-emerald-500/10">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider">Lifetime Carbon Offset</p>
+                        <h4 class="text-2xl font-extrabold text-white mt-1">184 Tons</h4>
+                        <p class="text-xs text-emerald-400 mt-1">Salem & Willamette Valley</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 12: AUDIT LOGS -->
+            <section id="section-logs" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="border-b border-emerald-500/10 pb-4">
+                    <h2 class="text-xl font-bold text-white">SCADA & Telemetry Audit Logs</h2>
+                    <p class="text-xs text-gray-400">Grid synchronization history and inverter diagnostics.</p>
+                </div>
+                <div class="space-y-3 text-xs">
+                    <div class="p-3 bg-white/5 rounded-xl flex justify-between items-center text-gray-300 border border-emerald-500/10">
+                        <span><b class="text-emerald-400">SCADA Inverter #04</b> — Re-synchronized with Salem Substation</span>
+                        <span class="text-gray-400">10 mins ago</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl flex justify-between items-center text-gray-300 border border-emerald-500/10">
+                        <span><b class="text-emerald-400">Net Metering Export</b> — PGE export throttled for voltage regulation</span>
+                        <span class="text-gray-400">2 hours ago</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl flex justify-between items-center text-gray-300 border border-emerald-500/10">
+                        <span><b class="text-emerald-400">Battery PowerVault #02</b> — Float charge cycle completed at 99.2% SoC</span>
+                        <span class="text-gray-400">1 day ago</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 13: SETTINGS -->
+            <section id="section-settings" class="dashboard-section admin-panel p-6 space-y-6">
+                <div class="border-b border-emerald-500/10 pb-4">
+                    <h2 class="text-xl font-bold text-white">Fleet Operations & Admin Profile Settings</h2>
+                    <p class="text-xs text-gray-400">Manage administrator credentials, SCADA webhooks, and PGE tariff sync.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Form 1: Admin Profile -->
+                    <div class="bg-white/5 p-6 rounded-2xl border border-emerald-500/10 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="ph ph-user text-emerald-400"></i> Admin Profile Credentials
+                        </h3>
+                        <form id="adminProfileSettingsForm" class="space-y-4" novalidate onsubmit="return false;">
+                            <div>
+                                <label for="adminNameInput" class="block text-xs font-bold uppercase text-gray-400 mb-1">Admin Full Name</label>
+                                <input type="text" id="adminNameInput" value="Elena Rostova" class="w-full bg-[#071611] border border-emerald-500/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--accent)] transition-colors">
+                            </div>
+                            <div>
+                                <label for="adminEmailInput" class="block text-xs font-bold uppercase text-gray-400 mb-1">Admin Operations Email</label>
+                                <input type="email" id="adminEmailInput" value="admin@stacklyenergy.com" class="w-full bg-[#071611] border border-emerald-500/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--accent)] transition-colors">
+                            </div>
+                            <div>
+                                <label for="adminNewPassword" class="block text-xs font-bold uppercase text-gray-400 mb-1">Change Master Password (Optional)</label>
+                                <input type="password" id="adminNewPassword" placeholder="Min 8 chars (letters, numbers, symbols)" class="w-full bg-[#071611] border border-emerald-500/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--accent)] transition-colors">
+                            </div>
+                            <button type="button" id="saveAdminBtn" class="w-full py-3 bg-[var(--accent)] text-black font-bold text-xs rounded-xl hover:bg-white transition-colors cursor-pointer shadow-lg shadow-emerald-500/10">
+                                Save Admin Settings
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Form 2: PGE Telemetry Webhook -->
+                    <div class="bg-white/5 p-6 rounded-2xl border border-emerald-500/10 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="ph ph-plugs text-emerald-400"></i> PGE Telemetry Webhook & Rate Limit
+                        </h3>
+                        <form id="adminApiSettingsForm" class="space-y-4" novalidate onsubmit="return false;">
+                            <div>
+                                <label for="settingsWebhookUrl" class="block text-xs font-bold uppercase text-gray-400 mb-1">SCADA Webhook URL</label>
+                                <input type="url" id="settingsWebhookUrl" value="https://api.stacklyenergy.com/v1/pge-telemetry" class="w-full bg-[#071611] border border-emerald-500/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--accent)] transition-colors">
+                            </div>
+                            <div>
+                                <label for="settingsRateLimit" class="block text-xs font-bold uppercase text-gray-400 mb-1">Telemetry Sync Frequency (Seconds)</label>
+                                <input type="number" id="settingsRateLimit" value="60" class="w-full bg-[#071611] border border-emerald-500/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[var(--accent)] transition-colors">
+                            </div>
+                            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-gray-300">
+                                Live Inverter heartbeat actively publishing 60-second telemetry bursts to Salem Substation.
+                            </div>
+                            <button type="button" id="saveApiBtn" class="w-full py-3 bg-white/10 text-white font-bold text-xs rounded-xl hover:bg-white/20 transition-colors cursor-pointer border border-white/10">
+                                Update Telemetry API
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Chart.js Configuration
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#9ca3af';
+            Chart.defaults.borderColor = 'rgba(16, 185, 129, 0.08)';
+
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            // Create gradient for solar generation bar chart
+            const gradientBar = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientBar.addColorStop(0, '#10B981'); // Solar Emerald
+            gradientBar.addColorStop(1, 'rgba(16, 185, 129, 0.15)');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [{
+                        label: 'Clean Solar Generation (MWh)',
+                        data: [78, 92, 114, 138, 162, 175, 188, 180, 142.8],
+                        backgroundColor: gradientBar,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        barThickness: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0D221A',
+                            titleColor: '#10B981',
+                            bodyColor: '#e4e4e7',
+                            borderColor: 'rgba(16, 185, 129, 0.25)',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: false,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' MWh Clean Energy Generated';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(16, 185, 129, 0.08)',
+                                drawBorder: false,
+                            },
+                            ticks: { 
+                                maxTicksLimit: 5,
+                                callback: function(value) {
+                                    return value + ' MWh';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+
+            // Display locally saved user email if present
+            const savedEmail = localStorage.getItem('currentUserEmail');
+            if (savedEmail) {
+                const roleEl = document.getElementById('admin-profile-role');
+                const nameEl = document.getElementById('admin-profile-name');
+                if (roleEl) roleEl.textContent = savedEmail;
+                if (nameEl) {
+                    const namePart = savedEmail.split('@')[0];
+                    const formattedName = namePart.split(/[\._-]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    nameEl.textContent = formattedName || 'Admin User';
+                }
+                
+                // Welcome message update
+                const welcomeText = document.querySelector('#section-overview header p');
+                if (welcomeText) {
+                    const namePart = savedEmail.split('@')[0];
+                    const formattedName = namePart.split(/[\._-]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    welcomeText.textContent = `Welcome back, ${formattedName || 'Stackly'}. Here is what's happening today.`;
+                }
+            }
+
+            // Logout Logic
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUserEmail');
+                    localStorage.removeItem('currentUserRole');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Mobile Drawer Toggle Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const closeDrawerBtn = document.getElementById('close-mobile-drawer');
+            const mobileDrawer = document.getElementById('mobile-sidebar-drawer');
+
+            if (mobileMenuBtn && mobileDrawer) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileDrawer.classList.remove('hidden');
+                });
+            }
+            if (closeDrawerBtn && mobileDrawer) {
+                closeDrawerBtn.addEventListener('click', () => {
+                    mobileDrawer.classList.add('hidden');
+                });
+            }
+            if (mobileDrawer) {
+                mobileDrawer.addEventListener('click', (e) => {
+                    if (e.target === mobileDrawer) {
+                        mobileDrawer.classList.add('hidden');
+                    }
+                });
+            }
+
+            // SPA Section Visibility Switcher Handler - only active section is visible, others are vanished
+            function showSection(targetId) {
+                const targetElement = document.getElementById(targetId);
+                if (!targetElement) return;
+
+                // Hide all sections
+                document.querySelectorAll('.dashboard-section').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+
+                // Reveal only the selected section
+                targetElement.classList.add('active');
+
+                // Update active highlight indicator on all nav links
+                document.querySelectorAll('aside nav a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === `#${targetId}`) {
+                        link.classList.add('active');
+                    } else if (href && href.startsWith('#section-')) {
+                        link.classList.remove('active');
+                    }
+                });
+
+                // Scroll main container to top
+                const mainContainer = document.getElementById('main-scroll-container');
+                if (mainContainer) mainContainer.scrollTop = 0;
+
+                // Close mobile drawer if open
+                if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+                    mobileDrawer.classList.add('hidden');
+                }
+            }
+
+            // Click listener for section navigation links
+            document.querySelectorAll('a[href^="#section-"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    showSection(targetId);
+                    window.location.hash = targetId;
+                });
+            });
+
+            // Initial load: show hash section or default to overview
+            const initialHash = window.location.hash ? window.location.hash.substring(1) : '';
+            if (initialHash && document.getElementById(initialHash)) {
+                showSection(initialHash);
+            } else {
+                showSection('section-overview');
+            }
+        });
+    </script>
+</body>
+</html>

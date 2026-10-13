@@ -654,23 +654,23 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="relative py-32 overflow-hidden bg-black text-white">
+    <section class="relative py-16 sm:py-24 md:py-32 overflow-hidden bg-black text-white">
         <!-- Background Pattern (simulating solar farm) -->
         <div class="absolute inset-0 z-0 opacity-40">
             <img src="images/solar-farm-aerial.webp" class="w-full h-full object-cover grayscale" alt="Solar Farm Aerial">
         </div>
         
         <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-lg">Join the Movement</h2>
+            <h2 class="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 tracking-tight drop-shadow-lg">Join the Movement</h2>
             <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto drop-shadow-md">
                 Together we can power a brighter future. Share your story, your projects, and inspire others to choose clean energy.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#contact" class="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2">
-                    Get Started <i class="fa-solid fa-arrow-right"></i>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 max-w-xs sm:max-w-none mx-auto">
+                <a href="contact.html" class="w-full sm:w-auto bg-white hover:bg-gray-200 text-black px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-lg">
+                    Get Started <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
-                <a href="#" class="bg-transparent hover:bg-white/10 border border-white/30 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm">
-                    Learn More <i class="fa-solid fa-arrow-right"></i>
+                <a href="services.html" class="w-full sm:w-auto bg-transparent hover:bg-white/10 border border-white/30 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm">
+                    Learn More <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
         </div>
@@ -680,13 +680,15 @@
     <footer id="contact" class="bg-black text-white pt-24 pb-12 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Massive typography overlay -->
-            <div class="relative mb-20 whitespace-nowrap overflow-hidden">
-                <h2 class="text-[15vw] font-black leading-none opacity-20 tracking-tighter mix-blend-overlay">Contact Contact Contact</h2>
-                <div class="absolute inset-0 flex flex-col justify-center items-start">
-                    <h3 class="text-3xl md:text-5xl font-bold max-w-lg leading-tight mb-8 relative z-10 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
+            <div class="relative mb-16 sm:mb-20 overflow-hidden py-4 sm:py-8">
+                <div class="absolute inset-0 flex items-center pointer-events-none select-none overflow-hidden" aria-hidden="true">
+                    <h2 class="text-[18vw] sm:text-[15vw] font-black leading-none opacity-15 tracking-tighter mix-blend-overlay whitespace-nowrap">Contact Contact Contact</h2>
+                </div>
+                <div class="relative z-10 flex flex-col justify-center items-start">
+                    <h3 class="text-2xl sm:text-3xl md:text-5xl font-bold max-w-lg leading-tight mb-6 bg-black/60 sm:bg-black/50 p-3 rounded-lg backdrop-blur-sm">
                         Explore Smart Solutions for Eco-Friendly Living in Salem
                     </h3>
-                    <a href="#" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors inline-flex items-center gap-2 relative z-10">
+                    <a href="contact.html" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors inline-flex items-center gap-2 shadow-lg">
                         Get Started <i class="fa-solid fa-arrow-right text-sm"></i>
                     </a>
                 </div>
@@ -705,7 +707,7 @@
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-6">Pages</h4>
+                    <h4 class="text-lg font-semibold mb-6">Quick Links</h4>
                     <ul class="space-y-3 text-sm text-gray-400">
                         <li><a href="index.html" class="hover:text-white transition-colors text-white font-medium">Home</a></li>
                         <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
@@ -732,7 +734,7 @@
                         <li><a href="admin-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs"></i> Admin Dashboard</a></li>
                         <li><a href="login.html" class="hover:text-white transition-colors">Login Portal</a></li>
                         <li><a href="signup.html" class="hover:text-white transition-colors">Create Account</a></li>
-                        <li><a href="404.html" class="hover:text-white transition-colors">404 Error Page</a></li>
+                        
                     </ul>
                 </div>
             </div>

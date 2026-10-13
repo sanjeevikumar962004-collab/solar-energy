@@ -27,11 +27,18 @@
             --border-color: #E2ECE6;
         }
 
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-light);
             color: var(--text-dark);
+        }
+        #main-scroll-container {
             overflow-x: hidden;
+            max-width: 100%;
         }
 
         /* Custom Scrollbar */
@@ -225,9 +232,6 @@
                     <a href="#section-help" class="nav-item">
                         <i class="ph ph-question text-xl"></i> Solar Help & FAQs
                     </a>
-                    <a href="index.html" class="nav-item text-gray-500 hover:text-black">
-                        <i class="ph ph-arrow-square-out text-xl"></i> Public Solar Site
-                    </a>
                 </nav>
             </div>
         </div>
@@ -291,7 +295,6 @@
                     <nav class="space-y-1">
                         <a href="#section-settings" class="nav-item"><i class="ph ph-gear text-xl"></i> System Settings</a>
                         <a href="#section-help" class="nav-item"><i class="ph ph-question text-xl"></i> Solar Help & FAQs</a>
-                        <a href="index.html" class="nav-item"><i class="ph ph-arrow-square-out text-xl"></i> Return to Site</a>
                     </nav>
                 </div>
             </div>
@@ -305,7 +308,7 @@
     </div>
 
     <!-- Main Content -->
-    <main id="main-scroll-container" class="flex-1 h-full overflow-y-auto relative scroll-smooth">
+    <main id="main-scroll-container" class="flex-1 h-full overflow-y-auto overflow-x-hidden relative scroll-smooth w-full min-w-0">
         <!-- Mobile Header -->
         <header class="lg:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center sticky top-0 z-30">
             <a href="index.html" class="text-xl font-extrabold tracking-tighter flex items-center gap-2">
@@ -316,7 +319,7 @@
             </button>
         </header>
 
-        <div class="p-6 md:p-8 lg:p-12 max-w-6xl mx-auto space-y-8">
+        <div class="p-3.5 sm:p-6 md:p-8 lg:p-12 max-w-6xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 overflow-x-hidden">
             
             <!-- SECTION 1: DASHBOARD / OVERVIEW -->
             <section id="section-dashboard" class="dashboard-section active space-y-8">
@@ -330,12 +333,12 @@
                             Residential Solar & Battery Telemetry
                         </h1>
                     </div>
-                    <div class="flex gap-3 w-full md:w-auto">
-                        <a href="#section-meetings" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-50 transition-colors">
-                            <i class="ph ph-calendar-blank text-lg"></i> Book Technician
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full md:w-auto">
+                        <a href="#section-meetings" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold hover:bg-gray-50 transition-colors">
+                            <i class="ph ph-calendar-blank text-base sm:text-lg"></i> Book Technician
                         </a>
-                        <a href="#section-messages" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-black transition-colors shadow-lg shadow-black/10">
-                            <i class="ph ph-paper-plane-tilt text-lg text-[var(--accent)]"></i> Solar Concierge
+                        <a href="#section-messages" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold hover:bg-black transition-colors shadow-lg shadow-black/10">
+                            <i class="ph ph-paper-plane-tilt text-base sm:text-lg text-[var(--accent)]"></i> Solar Concierge
                         </a>
                     </div>
                 </header>
@@ -344,30 +347,30 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 fade-in-up delay-100">
                     
                     <!-- Main Progress Card -->
-                    <div class="premium-card p-6 lg:col-span-2 flex flex-col justify-between">
-                        <div class="flex justify-between items-start mb-6">
+                    <div class="premium-card p-4 sm:p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-4 sm:mb-6">
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Daily Solar Generation Target</h2>
-                                <p class="text-sm text-gray-500 mt-1">Current Output: 48.6 kWh / 52.0 kWh Daily Projection</p>
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900 break-words">Daily Solar Generation Target</h2>
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1 break-words">Current Output: 48.6 kWh / 52.0 kWh Daily Projection</p>
                             </div>
-                            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">93% Complete</span>
+                            <span class="self-start sm:self-auto bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shrink-0">93% Complete</span>
                         </div>
                         
                         <div>
                             <div class="progress-track mb-3">
                                 <div class="progress-fill w-[93%]"></div>
                             </div>
-                            <div class="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest">
+                            <div class="flex justify-between text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-tight gap-1 break-words">
                                 <span>Sunrise (6 AM)</span>
-                                <span>Peak Sun (12 PM)</span>
+                                <span>Peak (12 PM)</span>
                                 <span class="text-emerald-700">Storage (3 PM)</span>
-                                <span>Grid Export (6 PM)</span>
+                                <span>Grid (6 PM)</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Next Milestone Card -->
-                    <div class="premium-card p-6 flex flex-col justify-center">
+                    <div class="premium-card p-4 sm:p-6 flex flex-col justify-center">
                         <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
                             <i class="ph-fill ph-lightning text-2xl text-[var(--accent)]"></i>
                         </div>
@@ -384,19 +387,19 @@
                     <!-- Left Column (Solar Velocity Chart) -->
                     <div class="xl:col-span-2 space-y-8 fade-in-up delay-200">
                         <!-- Project Velocity Chart -->
-                        <div class="premium-card p-6">
-                            <div class="flex justify-between items-center mb-6">
-                                <div>
-                                    <h2 class="text-lg font-bold text-gray-900">Hourly Solar Production & Consumption (kW)</h2>
-                                    <p class="text-xs text-gray-500 mt-0.5">Real-time SolarEdge inverter microgrid telemetry</p>
+                        <div class="premium-card p-4 sm:p-6 overflow-hidden">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4 sm:mb-6">
+                                <div class="min-w-0 flex-1">
+                                    <h2 class="text-base sm:text-lg font-bold text-gray-900 break-words">Hourly Solar Production & Consumption (kW)</h2>
+                                    <p class="text-xs text-gray-500 mt-0.5 break-words">Real-time SolarEdge inverter microgrid telemetry</p>
                                 </div>
-                                <select class="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-[var(--accent)] focus:border-[var(--accent)] block p-2 outline-none font-medium">
+                                <select class="w-full sm:w-auto bg-gray-50 border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg focus:ring-[var(--accent)] focus:border-[var(--accent)] block p-2 outline-none font-medium shrink-0">
                                     <option>Today (Live Feed)</option>
                                     <option>Last 7 Days</option>
                                     <option>Last 30 Days</option>
                                 </select>
                             </div>
-                            <div class="h-64 w-full">
+                            <div class="h-60 sm:h-64 w-full relative">
                                 <canvas id="velocityChart"></canvas>
                             </div>
                         </div>
@@ -405,7 +408,7 @@
                     <!-- Right Column (Invoices & Action Items) -->
                     <div class="space-y-8 fade-in-up delay-300">
                         <!-- Action Required -->
-                        <div class="premium-card p-6 border-l-4 border-l-[var(--accent-gold)]">
+                        <div class="premium-card p-4 sm:p-6 border-l-4 border-l-[var(--accent-gold)]">
                             <div class="flex items-center gap-3 mb-4">
                                 <i class="ph-fill ph-warning-circle text-[var(--accent-gold)] text-2xl"></i>
                                 <h2 class="text-lg font-bold text-gray-900">Action Required</h2>
@@ -417,8 +420,8 @@
                         </div>
 
                         <!-- Mini Financial Summary -->
-                        <div class="premium-card p-6">
-                            <h2 class="text-lg font-bold text-gray-900 mb-4">Solar ROI & Energy Snapshot</h2>
+                        <div class="premium-card p-4 sm:p-6">
+                            <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-4">Solar ROI & Energy Snapshot</h2>
                             <div class="flex justify-between items-center py-2 border-b border-gray-100 text-sm">
                                 <span class="text-gray-500">Estimated Annual Savings</span>
                                 <span class="font-bold text-gray-900">$2,840</span>
@@ -436,148 +439,156 @@
             </section>
 
             <!-- SECTION 2: DELIVERABLES & ASSETS -->
-            <section id="section-deliverables" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-100 pb-5">
+            <section id="section-deliverables" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-gray-100 pb-5">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Solar System Telemetry & Documentation</h2>
-                        <p class="text-sm text-gray-500">Access engineering blueprints, interconnection certificates, and warranty packages.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Solar System Telemetry & Documentation</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Access engineering blueprints, interconnection certificates, and warranty packages.</p>
                     </div>
-                    <button onclick="window.location.href='404.html'" class="bg-[var(--primary)] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-black transition-colors flex items-center gap-2 cursor-pointer">
+                    <button onclick="window.location.href='404.html'" class="w-full sm:w-auto bg-[var(--primary)] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-black transition-colors flex items-center justify-center gap-2 cursor-pointer shrink-0">
                         <i class="ph ph-download-simple"></i> Download All Documents (.zip)
                     </button>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Item 1 -->
-                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
-                                <i class="ph-fill ph-file-text text-2xl"></i>
+                    <div onclick="window.location.href='404.html'" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm min-w-0">
+                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-file-text text-xl sm:text-2xl"></i>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">NEM 3.0 Utility Interconnection Agreement</p>
-                                <p class="text-xs text-gray-500">PGE Smart Grid Contract &bull; 4.2 MB PDF</p>
+                            <div class="min-w-0 flex-1">
+                                <p class="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-[var(--accent)] transition-colors break-words">NEM 3.0 Utility Interconnection Agreement</p>
+                                <p class="text-[11px] sm:text-xs text-gray-500 break-words mt-0.5">PGE Smart Grid Contract &bull; 4.2 MB PDF</p>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Utility</span>
+                        <div class="self-start sm:self-center shrink-0">
+                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full inline-block">Utility</span>
+                        </div>
                     </div>
 
                     <!-- Item 2 -->
-                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
-                                <i class="ph-fill ph-solar-panel text-2xl"></i>
+                    <div onclick="window.location.href='404.html'" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm min-w-0">
+                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-solar-panel text-xl sm:text-2xl"></i>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">SolarEdge HD-Wave Inverter Blueprint</p>
-                                <p class="text-xs text-gray-500">Single-Line Electrical Schematic &bull; CAD Blueprint</p>
+                            <div class="min-w-0 flex-1">
+                                <p class="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-[var(--accent)] transition-colors break-words">SolarEdge HD-Wave Inverter Blueprint</p>
+                                <p class="text-[11px] sm:text-xs text-gray-500 break-words mt-0.5">Single-Line Electrical Schematic &bull; CAD Blueprint</p>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Schematic</span>
+                        <div class="self-start sm:self-center shrink-0">
+                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full inline-block">Schematic</span>
+                        </div>
                     </div>
 
                     <!-- Item 3 -->
-                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
-                                <i class="ph-fill ph-battery-charging text-2xl"></i>
+                    <div onclick="window.location.href='404.html'" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm min-w-0">
+                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-battery-charging text-xl sm:text-2xl"></i>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">Tesla Powerwall 3 Storage Specs & Warranty</p>
-                                <p class="text-xs text-gray-500">13.5 kWh LFP Battery &bull; 25-Year Warranty</p>
+                            <div class="min-w-0 flex-1">
+                                <p class="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-[var(--accent)] transition-colors break-words">Tesla Powerwall 3 Storage Specs & Warranty</p>
+                                <p class="text-[11px] sm:text-xs text-gray-500 break-words mt-0.5">13.5 kWh LFP Battery &bull; 25-Year Warranty</p>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Warranty</span>
+                        <div class="self-start sm:self-center shrink-0">
+                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full inline-block">Warranty</span>
+                        </div>
                     </div>
 
                     <!-- Item 4 -->
-                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
-                                <i class="ph-fill ph-stamp text-2xl"></i>
+                    <div onclick="window.location.href='404.html'" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm min-w-0">
+                        <div class="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-stamp text-xl sm:text-2xl"></i>
                             </div>
-                            <div>
-                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">AHJ City Permitting & Inspection Sign-Off</p>
-                                <p class="text-xs text-gray-500">Municipal Building & Electrical Final Permit</p>
+                            <div class="min-w-0 flex-1">
+                                <p class="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-[var(--accent)] transition-colors break-words">AHJ City Permitting & Inspection Sign-Off</p>
+                                <p class="text-[11px] sm:text-xs text-gray-500 break-words mt-0.5">Municipal Building & Electrical Final Permit</p>
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">Permit</span>
+                        <div class="self-start sm:self-center shrink-0">
+                            <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full inline-block">Permit</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 3: PROJECT TIMELINE -->
-            <section id="section-timeline" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+            <section id="section-timeline" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
                 <div class="border-b border-gray-100 pb-4">
-                    <h2 class="text-2xl font-bold text-gray-900">Solar Permitting & Commissioning Timeline</h2>
-                    <p class="text-sm text-gray-500">Track system design, city approvals, installation phases, and grid synchronization.</p>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Solar Permitting & Commissioning Timeline</h2>
+                    <p class="text-xs sm:text-sm text-gray-500">Track system design, city approvals, installation phases, and grid synchronization.</p>
                 </div>
 
-                <div class="relative pl-6 space-y-8 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gray-200">
+                <div class="relative pl-3 sm:pl-6 space-y-6 sm:space-y-8 before:absolute before:left-1 sm:before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gray-200">
                     <!-- Step 1 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm flex items-center justify-center"></div>
-                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-gray-900 text-base">Phase 1: Site Survey & Structural Roof Engineering</h4>
-                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                    <div class="relative pl-3 sm:pl-6">
+                        <div class="absolute -left-[14px] sm:-left-[19px] top-1.5 sm:top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-500 border-2 sm:border-4 border-white shadow-sm flex items-center justify-center"></div>
+                        <div class="bg-gray-50 p-3.5 sm:p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 mb-2">
+                                <h4 class="font-bold text-gray-900 text-xs sm:text-base break-words">Phase 1: Site Survey & Structural Roof Engineering</h4>
+                                <span class="text-[10px] sm:text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full shrink-0 self-start">Completed</span>
                             </div>
-                            <p class="text-xs text-gray-500">Completed Aug 15, 2026 &bull; Drone irradiance scan, structural roof load certification, and electrical panel inspection.</p>
+                            <p class="text-xs text-gray-500 break-words leading-relaxed">Completed Aug 15, 2026 &bull; Drone irradiance scan, structural roof load certification, and electrical panel inspection.</p>
                         </div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm"></div>
-                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-gray-900 text-base">Phase 2: City AHJ Permitting & HOA Structural Clearance</h4>
-                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                    <div class="relative pl-3 sm:pl-6">
+                        <div class="absolute -left-[14px] sm:-left-[19px] top-1.5 sm:top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-500 border-2 sm:border-4 border-white shadow-sm"></div>
+                        <div class="bg-gray-50 p-3.5 sm:p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 mb-2">
+                                <h4 class="font-bold text-gray-900 text-xs sm:text-base break-words">Phase 2: City AHJ Permitting & HOA Structural Clearance</h4>
+                                <span class="text-[10px] sm:text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full shrink-0 self-start">Completed</span>
                             </div>
-                            <p class="text-xs text-gray-500">Completed Sep 02, 2026 &bull; City building safety stamps and HOA architectural sign-off received.</p>
+                            <p class="text-xs text-gray-500 break-words leading-relaxed">Completed Sep 02, 2026 &bull; City building safety stamps and HOA architectural sign-off received.</p>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm"></div>
-                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-gray-900 text-base">Phase 3: Rooftop Solar & Powerwall 3 Battery Installation</h4>
-                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                    <div class="relative pl-3 sm:pl-6">
+                        <div class="absolute -left-[14px] sm:-left-[19px] top-1.5 sm:top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-500 border-2 sm:border-4 border-white shadow-sm"></div>
+                        <div class="bg-gray-50 p-3.5 sm:p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 mb-2">
+                                <h4 class="font-bold text-gray-900 text-xs sm:text-base break-words">Phase 3: Rooftop Solar & Powerwall 3 Battery Installation</h4>
+                                <span class="text-[10px] sm:text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full shrink-0 self-start">Completed</span>
                             </div>
-                            <p class="text-xs text-gray-500">Completed Sep 20, 2026 &bull; 24 Tier-1 monocrystalline panels installed with SolarEdge HD-Wave inverter.</p>
+                            <p class="text-xs text-gray-500 break-words leading-relaxed">Completed Sep 20, 2026 &bull; 24 Tier-1 monocrystalline panels installed with SolarEdge HD-Wave inverter.</p>
                         </div>
                     </div>
 
                     <!-- Step 4 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-[var(--accent)] border-4 border-white shadow-md animate-pulse"></div>
-                        <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200">
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-gray-900 text-base">Phase 4: Utility Smart Meter Swap & PTO (Permission to Operate)</h4>
-                                <span class="text-xs font-bold bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">In Progress</span>
+                    <div class="relative pl-3 sm:pl-6">
+                        <div class="absolute -left-[14px] sm:-left-[19px] top-1.5 sm:top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[var(--accent)] border-2 sm:border-4 border-white shadow-md animate-pulse"></div>
+                        <div class="bg-emerald-50/50 p-3.5 sm:p-4 rounded-2xl border border-emerald-200">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 mb-2">
+                                <h4 class="font-bold text-gray-900 text-xs sm:text-base break-words">Phase 4: Utility Smart Meter Swap & PTO (Permission to Operate)</h4>
+                                <span class="text-[10px] sm:text-xs font-bold bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full shrink-0 self-start">In Progress</span>
                             </div>
-                            <p class="text-xs text-gray-600">Target: Oct 14, 2026 &bull; Utility technician scheduled to replace analog meter with bi-directional smart meter.</p>
+                            <p class="text-xs text-gray-600 break-words leading-relaxed">Target: Oct 14, 2026 &bull; Utility technician scheduled to replace analog meter with bi-directional smart meter.</p>
                         </div>
                     </div>
 
                     <!-- Step 5 -->
-                    <div class="relative pl-6">
-                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-gray-300 border-4 border-white"></div>
-                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60 opacity-60">
-                            <div class="flex justify-between items-center mb-1">
-                                <h4 class="font-bold text-gray-900 text-base">Phase 5: Full Net Energy Metering (NEM 3.0) Live Synchronization</h4>
-                                <span class="text-xs font-bold bg-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full">Upcoming</span>
+                    <div class="relative pl-3 sm:pl-6">
+                        <div class="absolute -left-[14px] sm:-left-[19px] top-1.5 sm:top-1 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gray-300 border-2 sm:border-4 border-white"></div>
+                        <div class="bg-gray-50 p-3.5 sm:p-4 rounded-2xl border border-gray-200/60 opacity-60">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1.5 sm:gap-4 mb-2">
+                                <h4 class="font-bold text-gray-900 text-xs sm:text-base break-words">Phase 5: Full Net Energy Metering (NEM 3.0) Live Synchronization</h4>
+                                <span class="text-[10px] sm:text-xs font-bold bg-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full shrink-0 self-start">Upcoming</span>
                             </div>
-                            <p class="text-xs text-gray-500">Target: Oct 28, 2026 &bull; Automated true-up tariff tracking and surplus clean power exported to Salem grid.</p>
+                            <p class="text-xs text-gray-500 break-words leading-relaxed">Target: Oct 28, 2026 &bull; Automated true-up tariff tracking and surplus clean power exported to Salem grid.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 4: MILESTONES -->
-            <section id="section-milestones" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+            <section id="section-milestones" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
                 <div class="border-b border-gray-100 pb-4">
                     <h2 class="text-2xl font-bold text-gray-900">Net Metering & Interconnection Milestones</h2>
                     <p class="text-sm text-gray-500">Key compliance milestones and scheduled utility sign-offs.</p>
@@ -604,8 +615,8 @@
             </section>
 
             <!-- SECTION 5: MESSAGES & COLLABORATION -->
-            <section id="section-messages" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+            <section id="section-messages" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-100 pb-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-900">Solar Concierge & Technical Support</h2>
                         <p class="text-sm text-gray-500">Direct message channel with Stackly Clean Energy engineers.</p>
@@ -645,31 +656,31 @@
             </section>
 
             <!-- SECTION 6: DESIGN REVIEWS & FEEDBACK -->
-            <section id="section-reviews" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+            <section id="section-reviews" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">System Health & Inverter Diagnostics</h2>
-                        <p class="text-sm text-gray-500">Review automated telemetry diagnostics and authorize firmware upgrades.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">System Health & Inverter Diagnostics</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Review automated telemetry diagnostics and authorize firmware upgrades.</p>
                     </div>
-                    <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">1 Action Pending</span>
+                    <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full shrink-0">1 Action Pending</span>
                 </div>
 
-                <div class="border border-gray-200 rounded-2xl p-6 bg-gray-50/50 space-y-4">
-                    <div class="flex justify-between items-start">
+                <div class="border border-gray-200 rounded-2xl p-4 sm:p-6 bg-gray-50/50 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-2">
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900">SolarEdge HD-Wave Inverter Firmware 4.19 Upgrade</h3>
-                            <p class="text-xs text-gray-500 mt-0.5">Automated Telemetry Diagnostics &bull; Efficiency Optimization</p>
+                            <h3 class="text-base sm:text-lg font-bold text-gray-900 break-words">SolarEdge HD-Wave Inverter Firmware 4.19 Upgrade</h3>
+                            <p class="text-xs text-gray-500 mt-0.5 break-words">Automated Telemetry Diagnostics &bull; Efficiency Optimization</p>
                         </div>
-                        <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-md">Update Available</span>
+                        <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-md shrink-0">Update Available</span>
                     </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">
+                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed break-words">
                         Firmware 4.19 enhances MPPT rapid tracking by 3.4% during partly cloudy weather and includes updated IEEE 1547-2018 anti-islanding protocol compliance.
                     </p>
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <button onclick="showToast('Firmware 4.19 upgrade queued for 2:00 AM!', 'success')" class="bg-emerald-600 text-white font-bold px-5 py-2 rounded-xl text-xs hover:bg-emerald-700 transition-colors flex items-center gap-1.5 cursor-pointer">
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 pt-2">
+                        <button onclick="showToast('Firmware 4.19 upgrade queued for 2:00 AM!', 'success')" class="w-full sm:w-auto bg-emerald-600 text-white font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
                             <i class="ph ph-check"></i> Authorize OTA Firmware Update
                         </button>
-                        <button onclick="showToast('In-person inspection request logged.', 'info')" class="bg-white border border-gray-300 text-gray-700 font-bold px-5 py-2 rounded-xl text-xs hover:bg-gray-50 transition-colors flex items-center gap-1.5 cursor-pointer">
+                        <button onclick="showToast('In-person inspection request logged.', 'info')" class="w-full sm:w-auto bg-white border border-gray-300 text-gray-700 font-bold px-4 sm:px-5 py-2.5 rounded-xl text-xs hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
                             <i class="ph ph-wrench"></i> Request Field Technician Inspection
                         </button>
                     </div>
@@ -716,17 +727,17 @@
             </section>
 
             <!-- SECTION 8: INVOICES & FINANCIALS -->
-            <section id="section-invoices" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+            <section id="section-invoices" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Utility Statements & Hardware Billing</h2>
-                        <p class="text-sm text-gray-500">Review PGE net metering statements, installation balance receipts, and service invoices.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Utility Statements & Hardware Billing</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Review PGE net metering statements, installation balance receipts, and service invoices.</p>
                     </div>
-                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Total Paid: $12,250</span>
+                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full shrink-0">Total Paid: $12,250</span>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
+                <div class="overflow-x-auto -mx-2 sm:mx-0">
+                    <table class="w-full text-left text-sm min-w-[550px]">
                         <thead>
                             <tr class="text-xs font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100">
                                 <th class="pb-3">Invoice ID</th>
@@ -774,13 +785,13 @@
             </section>
 
             <!-- SECTION 9: CONTRACTS -->
-            <section id="section-contracts" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+            <section id="section-contracts" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Solar Warranty & Purchase Agreements</h2>
-                        <p class="text-sm text-gray-500">Executed warranties, statements of work, and utility interconnection agreements.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Solar Warranty & Purchase Agreements</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Executed warranties, statements of work, and utility interconnection agreements.</p>
                     </div>
-                    <span class="text-xs font-bold bg-gray-100 text-gray-700 px-3 py-1 rounded-full">2 Executed Contracts</span>
+                    <span class="text-xs font-bold bg-gray-100 text-gray-700 px-3 py-1 rounded-full shrink-0">2 Executed Contracts</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -800,15 +811,15 @@
             </section>
 
             <!-- SECTION 10: PROPOSALS & SCOPE -->
-            <section id="section-proposals" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
-                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+            <section id="section-proposals" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Engineering Proposal & System Specifications</h2>
-                        <p class="text-sm text-gray-500">Full solar array layout, electrical single-line diagram, and projected 25-year ROI breakdown.</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Engineering Proposal & System Specifications</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Full solar array layout, electrical single-line diagram, and projected 25-year ROI breakdown.</p>
                     </div>
-                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Active SOW</span>
+                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full shrink-0">Active SOW</span>
                 </div>
-                <div class="p-5 rounded-2xl border border-gray-200 bg-gray-50/50 space-y-3">
+                <div class="p-4 sm:p-5 rounded-2xl border border-gray-200 bg-gray-50/50 space-y-3">
                     <i class="ph-fill ph-file-text text-3xl text-gray-800"></i>
                     <h4 class="font-bold text-gray-900 text-lg">Salem Residence 9.8 kW DC Rooftop Solar + 13.5 kWh Powerwall 3 Specification (SOW #1)</h4>
                     <p class="text-xs text-gray-600 leading-relaxed">
@@ -819,7 +830,7 @@
             </section>
 
             <!-- SECTION 11: SETTINGS -->
-            <section id="section-settings" class="dashboard-section premium-card p-6 md:p-8 space-y-8">
+            <section id="section-settings" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
                 <div class="border-b border-gray-100 pb-4">
                     <h2 class="text-2xl font-bold text-gray-900">System Settings & Profile Preferences</h2>
                     <p class="text-sm text-gray-500">Manage solar telemetry notifications, homeowner profile data, and security credentials.</p>
@@ -854,7 +865,7 @@
                 </div>
 
                 <!-- Homeowner Profile Form (Integrated with validation.js) -->
-                <div class="card p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-5 max-w-2xl">
+                <div class="card p-4 sm:p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-4 sm:space-y-5 max-w-2xl">
                     <div class="border-b border-gray-200/60 pb-3">
                         <h3 class="text-lg font-bold text-gray-900">Homeowner Profile Information</h3>
                         <p class="text-xs text-gray-500">Update your verified account name, billing email, and installation location.</p>
@@ -893,7 +904,7 @@
                         </div>
                     </div>
 
-                    <button id="saveProfileBtn" class="px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                    <button id="saveProfileBtn" class="w-full sm:w-auto px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                         <i class="ph ph-floppy-disk text-sm text-[var(--accent)]"></i> Save Profile Settings
                     </button>
                 </div>
@@ -921,21 +932,21 @@
                         </div>
                     </div>
 
-                    <button id="savePasswordBtn" class="px-6 py-2.5 bg-emerald-700 text-white text-xs font-bold rounded-xl hover:bg-emerald-800 transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                    <button id="savePasswordBtn" class="w-full sm:w-auto px-6 py-2.5 bg-emerald-700 text-white text-xs font-bold rounded-xl hover:bg-emerald-800 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                         <i class="ph ph-lock-key text-sm"></i> Update Portal Password
                     </button>
                 </div>
             </section>
 
             <!-- SECTION 12: HELP & FAQS -->
-            <section id="section-help" class="dashboard-section premium-card p-6 md:p-8 space-y-8">
+            <section id="section-help" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
                 <div class="border-b border-gray-100 pb-4">
                     <h2 class="text-2xl font-bold text-gray-900">Solar Support & Technical FAQs</h2>
                     <p class="text-sm text-gray-500">Create a support ticket or explore common clean energy inquiries.</p>
                 </div>
 
                 <!-- Open Ticket Form (Integrated with validation.js) -->
-                <div class="card p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-4 max-w-2xl">
+                <div class="card p-4 sm:p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-4 max-w-2xl">
                     <div class="border-b border-gray-200/60 pb-3">
                         <h3 class="text-lg font-bold text-gray-900">Open a Solar Support Ticket</h3>
                         <p class="text-xs text-gray-500">Directly alert our Salem engineering team. Average response time: 2 hours.</p>
@@ -962,7 +973,7 @@
                         <textarea id="ticketDesc" rows="3" placeholder="Please describe the issue or inquiry in detail (minimum 15 characters)..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors"></textarea>
                     </div>
 
-                    <button id="submitTicketBtn" class="px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                    <button id="submitTicketBtn" class="w-full sm:w-auto px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                         <i class="ph ph-paper-plane text-sm text-[var(--accent)]"></i> Submit Support Ticket
                     </button>
                 </div>
@@ -1010,7 +1021,7 @@
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['06:00 AM', '08:00 AM', '10:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM'],
+                    labels: ['6 AM', '8 AM', '10 AM', '12 PM', '2 PM', '4 PM', '6 PM', '8 PM'],
                     datasets: [{
                         label: 'Solar Output (kW)',
                         data: [0.6, 2.4, 6.8, 9.8, 8.9, 5.2, 1.8, 0.1],
@@ -1058,7 +1069,15 @@
                             }
                         },
                         x: {
-                            grid: { display: false, drawBorder: false }
+                            grid: { display: false, drawBorder: false },
+                            ticks: {
+                                maxTicksLimit: 5,
+                                autoSkip: true,
+                                maxRotation: 0,
+                                font: {
+                                    size: 10
+                                }
+                            }
                         }
                     },
                     animation: {
