@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & Clean Energy Chronicle | Stackly</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="validation.js" defer></script>
+    <!-- Google Fonts: Inter for a clean, modern sans-serif look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Tailwind Configuration to match design aesthetics -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#f9f9f9',
+                        accent: '#e5e7eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white selection:bg-gray-300 selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 group transition-all" id="logo-text">
+                        <img id="nav-logo-img" src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain transition-all duration-300">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Home</a>
+                    <a href="about.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">About</a>
+                    <a href="services.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Services</a>
+                    <a href="blog.html" class="nav-link text-white font-semibold text-sm transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-white">Blog</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Contact</a>
+                    <a id="login-btn" href="login.html" class="text-black bg-white hover:bg-gray-100 px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2 shadow-sm border border-transparent">
+                        Login <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gray-300 focus:outline-none transition-colors duration-300" id="mobile-btn-icon">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl absolute w-full transition-all duration-300 ease-in-out transform -translate-y-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 sm:px-3 flex flex-col gap-4 mt-4">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Home</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">About</a>
+                <a href="services.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Services</a>
+                <a href="blog.html" class="block px-3 py-2 text-base font-semibold text-black bg-gray-50 rounded-md">Blog</a>
+                <a href="contact.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Contact</a>
+                <a id="mobile-login-btn" href="login.html" class="block w-full py-2.5 text-base font-medium text-center text-white bg-black rounded-full hover:bg-gray-800 mt-2">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Banner -->
+    <section class="relative min-h-[65vh] flex items-center justify-center overflow-hidden bg-black text-white pt-24 pb-16">
+        <div class="absolute inset-0 z-0">
+            <img src="images/blog-hero.webp" alt="Green forest and renewable energy" class="w-full h-full object-cover opacity-45 scale-105 transition-transform duration-1000 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center mt-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase mb-6 text-gray-200">
+                <i class="fa-solid fa-newspaper text-emerald-400"></i> The Clean Energy Chronicle
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                Insights, Breakthroughs & <br class="hidden sm:inline" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">Sustainable Living.</span>
+            </h1>
+            <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto font-light mb-8 leading-relaxed">
+                Stay informed with deep dives into photovoltaic technology, smart battery storage, Oregon clean energy policies, and eco-friendly home automation.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto relative">
+                <input type="text" id="blog-search" placeholder="Search solar technology, batteries, tax credits..." class="w-full px-6 py-4 pl-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-gray-400 text-sm focus:outline-none focus:bg-white focus:text-black focus:placeholder-gray-500 transition-all shadow-2xl">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editorial Spotlight Banner -->
+    <section class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-secondary rounded-3xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col lg:flex-row">
+                <div class="lg:w-7/12 relative h-72 lg:h-auto overflow-hidden">
+                    <img src="images/solar-panels-closeup.webp" alt="Bifacial solar technology" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                    <div class="absolute top-4 left-4 bg-black text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg">
+                        Featured Spotlight
+                    </div>
+                </div>
+                <div class="lg:w-5/12 p-8 lg:p-12 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 text-xs text-gray-500 mb-3 font-medium">
+                            <span class="text-emerald-700 font-bold uppercase tracking-wider">Technology Breakthrough</span>
+                            <span>&bull;</span>
+                            <span>October 2026</span>
+                            <span>&bull;</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h2 class="text-2xl lg:text-3xl font-bold text-black mb-4 leading-tight hover:text-gray-700 transition-colors cursor-pointer">
+                            Why Salem's Overcast Winters Produce Up to 40% More Power with Bifacial Modules
+                        </h2>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                            Traditional single-sided solar panels struggle under diffuse Pacific Northwest overcast skies. Discover how dual-glass bifacial cells harvest ground-reflected ambient albedo light to maintain steady household power all winter long.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <img src="images/team-elena.webp" alt="Elena Rostova" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                            <div>
+                                <p class="text-xs font-bold text-black leading-tight">Elena Rostova</p>
+                                <p class="text-[10px] text-gray-500">CEO & Clean Energy Technologist</p>
+                            </div>
+                        </div>
+                        <a href="#articles-grid" class="text-xs font-bold uppercase tracking-wider text-black hover:text-gray-600 flex items-center gap-1.5">
+                            Read Guide <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filter Bar -->
+    <section class="py-8 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 hide-scrollbar" id="category-filters">
+                <button class="filter-btn active px-5 py-2.5 rounded-full text-xs font-semibold bg-black text-white whitespace-nowrap transition-all shadow-sm" data-category="all">
+                    All Articles (9)
+                </button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition-all" data-category="technology">
+                    Solar Technology
+                </button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition-all" data-category="smart-home">
+                    Smart Home & Automation
+                </button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition-all" data-category="policies">
+                    Incentives & Policies
+                </button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition-all" data-category="case-studies">
+                    Case Studies
+                </button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition-all" data-category="guides">
+                    Guides & DIY
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comprehensive Articles Grid (Reused from Home + 6 New Rich Articles) -->
+    <section id="articles-grid" class="py-12 bg-white min-h-[600px]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="article-cards-container">
+
+                <!-- Article 1 (From Home): Enhancing Home Security -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="smart-home" data-title="enhancing home security with solar automation">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/smart-home.webp" alt="Smart home lock" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Smart Home</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>June 2025</span> &bull; <span>4 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                Enhancing Home Security with Solar Automation
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Integrating decentralized battery backup with perimeter smart locks, camera feeds, and automated blackout lighting for uninterrupted security.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Stackly Research</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 2 (From Home): The Benefits of Solar Energy -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="technology" data-title="the benefits of solar energy in salem">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/solar-sunset.webp" alt="Solar panel sunset" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Technology</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>June 2025</span> &bull; <span>5 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                The Benefits of Solar Energy in Salem
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                How Marion County homeowners eliminate utility inflation, take advantage of net metering credits, and increase their home resale valuation.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Marcus Vance</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 3 (From Home): Home Insulation Tips -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="guides" data-title="home insulation tips for energy efficiency">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/wind-hybrid.webp" alt="Wind turbine model" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Guides & DIY</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>May 2025</span> &bull; <span>3 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                Home Insulation Tips for Energy Efficiency
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Maximizing the ROI of your solar system by sealing thermal leaks in attics and crawlspaces before the Pacific Northwest winter arrives.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Field Operations</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 4: Oregon 2026 Solar Rebate & 30% Tax Credit -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="policies" data-title="navigating oregons 2026 clean energy rebates and tax credits">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/financial-incentives.webp" alt="Financial documents and clean energy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Policies</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>September 2026</span> &bull; <span>7 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                Navigating Oregon's 2026 Solar Rebates & Federal Credits
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Complete step-by-step breakdown on stacking the 30% federal investment tax credit (ITC) with Oregon Department of Energy cash rebates.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Financial Desk</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 5: Bidirectional EV Charging -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="smart-home" data-title="bidirectional ev charging v2h powering your home">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/ev-charging.webp" alt="Electric vehicle charging station" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Smart Home</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>August 2026</span> &bull; <span>5 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                How Bidirectional EV Charging Powers Your House
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Turn your electric car into a 70kWh emergency home battery generator. Discover how Vehicle-to-Home (V2H) systems are changing blackout survival.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Dr. Maya Lin</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 6: LFP vs NMC Battery Chemistry -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="technology" data-title="lfp vs nmc battery chemistry for home solar storage">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/modern-architecture.webp" alt="High tech battery storage components" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Technology</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>August 2026</span> &bull; <span>6 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                LFP vs NMC: Which Battery Chemistry Best Survives Oregon?
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Why Lithium Iron Phosphate (LFP) avoids cobalt fire hazards, withstands freezing garage temperatures, and achieves double the charge cycles.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Battery Team</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 7: Agrivoltaics in Willamette Valley -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="case-studies" data-title="agrivoltaics in willamette valley vineyard solar">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/vineyard-canopy.webp" alt="Vineyard with solar canopy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Case Studies</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>July 2026</span> &bull; <span>8 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                Agrivoltaics: Protecting Willamette Valley Vineyards
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Case study on how elevated bifacial solar canopies protect Pinot Noir vines from heatwaves while powering cold fermentation cellars.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Case Studies</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 8: Smart Electrical Panels -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="smart-home" data-title="smart electrical panels slashes electric bills">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/smart-inverter.webp" alt="Smart energy panel and breaker" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Smart Home</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>July 2026</span> &bull; <span>4 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                Smart Electrical Panels: Slaying Ghost Loads
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                How sub-metering individual circuits pinpoints energy vampires in real time, unlocking up to 22% additional bill reductions without lifestyle sacrifices.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Software Dept</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+                <!-- Article 9: Salem Permitting Walkthrough -->
+                <article class="article-card group bg-secondary rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between" data-category="case-studies" data-title="a salem homeowners walkthrough permit to power in 14 days">
+                    <div>
+                        <div class="overflow-hidden h-60 bg-white relative">
+                            <img src="images/hero-solar-home.webp" alt="Finished modern home with solar" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                            <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-black text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Case Studies</span>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span>June 2026</span> &bull; <span>6 min read</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 group-hover:text-gray-600 transition-colors leading-snug">
+                                From Marion County Permit to Power in 14 Days
+                            </h3>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                An authentic homeowner walkthrough in South Salem: structural engineering, PGE interconnection approval, inspection pass, and first kilowatt generated.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-xs font-semibold text-black">Julian Croft</span>
+                        <span class="text-xs text-gray-500 group-hover:text-black flex items-center gap-1 font-semibold">Read <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="no-articles-msg" class="hidden text-center py-20">
+                <i class="fa-solid fa-file-circle-question text-5xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">No matching articles found</h3>
+                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">Try searching for other topics like "battery", "technology", "rebates", or clear your filter.</p>
+                <button onclick="document.getElementById('blog-search').value=''; document.querySelector('[data-category=all]').click();" class="px-6 py-2.5 bg-black text-white rounded-full text-xs font-semibold">
+                    Reset Filter
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Downloadable Buyer's Guide Promo Banner -->
+    <section class="py-20 bg-secondary border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-sm border border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div class="lg:w-2/3">
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-4 inline-block">Free 2026 Guidebook</span>
+                    <h3 class="text-3xl font-bold text-black mb-3">The Oregon Homeowner's Solar Handbook</h3>
+                    <p class="text-sm text-gray-600 max-w-xl leading-relaxed">
+                        A comprehensive 28-page PDF guide covering Salem utility interconnection policies, HOA solar rights under Oregon Revised Statutes, inverter comparisons, and ROI spreadsheets.
+                    </p>
+                </div>
+                <div class="lg:w-1/3 flex flex-col sm:flex-row lg:flex-col gap-3 w-full">
+                    <button id="download-guide-btn" class="w-full py-4 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 shadow-lg text-sm">
+                        <i class="fa-solid fa-file-arrow-down"></i> Download Free PDF (4.2 MB)
+                    </button>
+                    <p class="text-[11px] text-gray-400 text-center">Instant access &bull; No credit card required</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription Section -->
+    <section id="newsletter" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-black text-white flex items-center justify-center text-xl mx-auto mb-6 shadow-md">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-bold text-black mb-4">Stay Ahead of the Clean Energy Wave</h2>
+            <p class="text-gray-600 text-sm md:text-base max-w-xl mx-auto mb-10">
+                Join 12,000+ Pacific Northwest residents receiving our monthly telemetry insights, grid policy shifts, and exclusive equipment discounts.
+            </p>
+
+            <form id="newsletter-form" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3" novalidate>
+                <div class="flex-grow text-left">
+                    <input type="email" id="newsletter-email" required placeholder="Enter your email address" class="w-full px-5 py-3.5 rounded-full border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 ml-4 block" id="newsletter-email-error">Please enter a valid email address</span>
+                </div>
+                <button type="submit" id="newsletter-submit-btn" class="px-8 py-3.5 bg-black text-white rounded-full font-semibold text-sm hover:bg-gray-800 transition-colors shadow-md whitespace-nowrap self-start sm:self-auto">
+                    Subscribe Free
+                </button>
+            </form>
+            <p class="text-[11px] text-gray-400 mt-4">We respect your inbox. Unsubscribe in one click anytime.</p>
+        </div>
+    </section>
+
+    <!-- Reused Section: Partners Logo Marquee from Home Page -->
+    <section class="py-12 bg-secondary border-t border-gray-200 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-6">Trusted partners in smart, clean energy solutions.</p>
+            <div class="flex space-x-12 animate-marquee whitespace-nowrap opacity-50">
+                <i class="fa-brands fa-aws text-3xl"></i>
+                <i class="fa-brands fa-google text-3xl"></i>
+                <i class="fa-brands fa-apple text-3xl"></i>
+                <i class="fa-brands fa-microsoft text-3xl"></i>
+                <i class="fa-solid fa-bolt text-3xl"></i>
+                <i class="fa-solid fa-leaf text-3xl"></i>
+                <i class="fa-solid fa-solar-panel text-3xl"></i>
+                <!-- Repeat for continuous scroll effect -->
+                <i class="fa-brands fa-aws text-3xl"></i>
+                <i class="fa-brands fa-google text-3xl"></i>
+                <i class="fa-brands fa-apple text-3xl"></i>
+                <i class="fa-brands fa-microsoft text-3xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: CTA Section from Home Page -->
+    <section class="relative py-32 overflow-hidden bg-black text-white">
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="images/solar-farm-aerial.webp" class="w-full h-full object-cover grayscale" alt="Solar Farm Aerial">
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-lg">Join the Movement</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto drop-shadow-md">
+                Together we can power a brighter future. Share your story, your projects, and inspire others to choose clean energy.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="contact.html" class="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="services.html" class="bg-transparent hover:bg-white/10 border border-white/30 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm">
+                    Our Services <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Huge Contact Footer Area from Home Page -->
+    <footer id="contact" class="bg-black text-white pt-24 pb-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Massive typography overlay -->
+            <div class="relative mb-20 whitespace-nowrap overflow-hidden">
+                <h2 class="text-[15vw] font-black leading-none opacity-20 tracking-tighter mix-blend-overlay">Contact Contact Contact</h2>
+                <div class="absolute inset-0 flex flex-col justify-center items-start">
+                    <h3 class="text-3xl md:text-5xl font-bold max-w-lg leading-tight mb-8 relative z-10 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
+                        Explore Smart Solutions for Eco-Friendly Living in Salem
+                    </h3>
+                    <a href="contact.html" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors inline-flex items-center gap-2 relative z-10">
+                        Get Started <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-t border-gray-800 pt-16">
+                <div>
+                    <div class="mb-4">
+                        <a href="index.html" class="inline-block transition-opacity hover:opacity-80">
+                            <img src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain">
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Your Smart Home Awaits.</p>
+                    <p class="text-xs text-gray-500">Made with <i class="fa-solid fa-heart text-red-800 mx-1"></i> by Stackly Tech</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Pages</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition-colors text-white font-medium">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Solutions</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="services.html#residential" class="hover:text-white transition-colors">Residential Solar</a></li>
+                        <li><a href="services.html#battery" class="hover:text-white transition-colors">Battery Storage</a></li>
+                        <li><a href="services.html#smart-home" class="hover:text-white transition-colors">Smart Automation</a></li>
+                        <li><a href="services.html#calculator" class="hover:text-white transition-colors">Savings Calculator</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Connect & Portals</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="user-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house-signal text-xs"></i> User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs"></i> Admin Dashboard</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Login Portal</a></li>
+                        <li><a href="signup.html" class="hover:text-white transition-colors">Create Account</a></li>
+                        <li><a href="404.html" class="hover:text-white transition-colors">404 Error Page</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Stackly Energy Salem. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white" aria-label="X (formerly Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Toast Notification -->
+    <div id="general-toast" class="fixed bottom-6 right-6 z-50 bg-black text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 border border-gray-800">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center" id="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <p class="text-sm font-semibold" id="toast-title">Success!</p>
+            <p class="text-xs text-gray-400" id="toast-message">Your request has been received.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navbar Scroll Effect ---
+            const navbar = document.getElementById('navbar');
+            const logoText = document.getElementById('logo-text');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loginBtn = document.getElementById('login-btn');
+            
+            window.addEventListener('scroll', () => {
+                const navLogo = document.getElementById('nav-logo-img');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md');
+                    navbar.classList.remove('bg-transparent', 'py-4');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-dark.webp';
+                    logoText.classList.remove('text-white');
+                    logoText.classList.add('text-black');
+                    mobileBtn.classList.remove('text-white');
+                    mobileBtn.classList.add('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-white', 'hover:text-gray-300');
+                        link.classList.add('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.remove('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.add('bg-black', 'text-white', 'hover:bg-gray-800');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-md');
+                    navbar.classList.add('bg-transparent');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-light.webp';
+                    logoText.classList.add('text-white');
+                    logoText.classList.remove('text-black');
+                    mobileBtn.classList.add('text-white');
+                    mobileBtn.classList.remove('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.add('text-white', 'hover:text-gray-300');
+                        link.classList.remove('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.add('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.remove('bg-black', 'text-white', 'hover:bg-gray-800');
+                }
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('-translate-y-full');
+                    }, 10);
+                } else {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            });
+
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                });
+            });
+
+            // --- Toast Utility ---
+            const toast = document.getElementById('general-toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+
+            function showToast(title, message) {
+                if (!toast) return;
+                toastTitle.textContent = title;
+                toastMsg.textContent = message;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 4000);
+            }
+
+            // --- Category Filtering & Search ---
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articleCards = document.querySelectorAll('.article-card');
+            const searchInput = document.getElementById('blog-search');
+            const noArticlesMsg = document.getElementById('no-articles-msg');
+
+            let currentCategory = 'all';
+
+            function filterArticles() {
+                const query = searchInput.value.toLowerCase().trim();
+                let visibleCount = 0;
+
+                articleCards.forEach(card => {
+                    const cardCat = card.getAttribute('data-category');
+                    const cardTitle = card.getAttribute('data-title') || '';
+                    const cardText = card.textContent.toLowerCase();
+
+                    const matchesCategory = (currentCategory === 'all' || cardCat === currentCategory);
+                    const matchesQuery = (!query || cardTitle.includes(query) || cardText.includes(query));
+
+                    if (matchesCategory && matchesQuery) {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                if (visibleCount === 0) {
+                    noArticlesMsg.classList.remove('hidden');
+                } else {
+                    noArticlesMsg.classList.add('hidden');
+                }
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-black', 'text-white', 'shadow-sm');
+                        b.classList.add('bg-gray-100', 'text-gray-700');
+                    });
+                    btn.classList.remove('bg-gray-100', 'text-gray-700');
+                    btn.classList.add('bg-black', 'text-white', 'shadow-sm');
+
+                    currentCategory = btn.getAttribute('data-category');
+                    filterArticles();
+                });
+            });
+
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    filterArticles();
+                });
+            }
+
+            // Download Guide Action
+            const downloadBtn = document.getElementById('download-guide-btn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', () => {
+                    showToast('Guidebook Downloaded!', 'The 2026 Oregon Solar Handbook has been prepared.');
+                });
+            }
+
+            // Newsletter Form Validation
+            const newsletterForm = document.getElementById('newsletter-form');
+            const newsletterEmail = document.getElementById('newsletter-email');
+            const newsletterError = document.getElementById('newsletter-email-error');
+            const newsletterBtn = document.getElementById('newsletter-submit-btn');
+
+            function validateNewsletterEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            if (newsletterEmail) {
+                newsletterEmail.addEventListener('blur', () => {
+                    const valid = validateNewsletterEmail(newsletterEmail.value.trim());
+                    if (!valid && newsletterEmail.value.trim().length > 0) {
+                        newsletterError.classList.remove('hidden');
+                        newsletterEmail.classList.add('border-red-500', 'bg-red-50/20');
+                    } else if (valid) {
+                        newsletterError.classList.add('hidden');
+                        newsletterEmail.classList.remove('border-red-500', 'bg-red-50/20');
+                        newsletterEmail.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                    }
+                });
+                newsletterEmail.addEventListener('input', () => {
+                    if (newsletterEmail.classList.contains('border-red-500')) {
+                        const valid = validateNewsletterEmail(newsletterEmail.value.trim());
+                        if (valid) {
+                            newsletterError.classList.add('hidden');
+                            newsletterEmail.classList.remove('border-red-500', 'bg-red-50/20');
+                        }
+                    }
+                });
+            }
+
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const emailVal = newsletterEmail ? newsletterEmail.value.trim() : '';
+                    if (!validateNewsletterEmail(emailVal)) {
+                        if (newsletterError) newsletterError.classList.remove('hidden');
+                        if (newsletterEmail) {
+                            newsletterEmail.classList.add('border-red-500', 'bg-red-50/20');
+                            newsletterEmail.focus();
+                        }
+                        showToast('Validation Error', 'Please enter a valid email address.');
+                        return;
+                    }
+
+                    if (newsletterError) newsletterError.classList.add('hidden');
+                    if (newsletterEmail) newsletterEmail.classList.remove('border-red-500', 'bg-red-50/20');
+                    
+                    const originalBtnContent = newsletterBtn ? newsletterBtn.innerHTML : 'Subscribe Free';
+                    if (newsletterBtn) {
+                        newsletterBtn.disabled = true;
+                        newsletterBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
+                    }
+
+                    setTimeout(() => {
+                        newsletterForm.reset();
+                        if (newsletterEmail) newsletterEmail.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+                        if (newsletterBtn) {
+                            newsletterBtn.disabled = false;
+                            newsletterBtn.innerHTML = originalBtnContent;
+                        }
+                        showToast('Subscribed!', 'Welcome to the monthly Stackly Clean Energy Chronicle.');
+                    }, 800);
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

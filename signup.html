@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Stackly Solar Portal</title>
+    <meta name="description" content="Join Stackly Solar — activate your homeowner or admin portal, monitor live telemetry, and claim clean energy incentives.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="validation.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#f9f9f9',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .signup-bg {
+            background-image: url('images/hero-solar-home.webp');
+            background-size: cover;
+            background-position: center;
+        }
+        .signup-overlay {
+            background: linear-gradient(135deg, rgba(0,10,5,0.87) 0%, rgba(5,30,15,0.82) 50%, rgba(0,0,0,0.90) 100%);
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeup { animation: fadeSlideUp 0.5s ease forwards; }
+
+        .stat-badge {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .role-btn-active { background: #111; color: #fff; }
+        .role-btn-inactive { background: transparent; color: #6b7280; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen signup-bg">
+    <div class="signup-overlay min-h-screen flex flex-col">
+
+        <!-- Main Signup Content -->
+        <main class="flex-grow flex items-center justify-center px-4 py-12">
+            <div class="w-full max-w-xl animate-fadeup">
+
+                <!-- Portal badge -->
+                <div class="flex justify-center mb-6">
+                    <div class="stat-badge inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold text-gray-200">
+                        <i class="fa-solid fa-leaf text-emerald-400"></i>
+                        Join Salem's Clean Energy Network &bull; 5,200+ Active Homeowners
+                    </div>
+                </div>
+
+                <!-- Glass Card -->
+                <div class="glass-card rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+                    <div class="p-8 md:p-10">
+                        <div class="flex justify-center mb-6">
+                            <a href="index.html" class="inline-block transition-opacity hover:opacity-80">
+                                <img src="images/stackly-logo-dark.webp" alt="Stackly Clean Energy" class="h-9 w-auto object-contain">
+                            </a>
+                        </div>
+                        <!-- Header & Role + Autofill -->
+                        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-7">
+                            <div>
+                                <h1 class="text-2xl md:text-3xl font-extrabold text-black leading-tight">Create Solar Account</h1>
+                                <p class="text-xs text-gray-500 mt-1">Connect your residential or commercial solar array.</p>
+                            </div>
+                            <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
+                                <!-- Role Selector -->
+                                <div class="bg-gray-100 p-1 rounded-full flex border border-gray-200" id="role-selector">
+                                    <button type="button" class="role-btn role-btn-active px-3.5 py-1.5 rounded-full text-xs font-bold transition-all" data-role="user">
+                                        <i class="fa-solid fa-house-signal mr-1 text-[10px]"></i> Homeowner
+                                    </button>
+                                    <button type="button" class="role-btn role-btn-inactive px-3.5 py-1.5 rounded-full text-xs font-bold hover:text-black transition-all" data-role="admin">
+                                        <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> Admin
+                                    </button>
+                                </div>
+                                <!-- Quick autofill -->
+                                <button type="button" id="autofill-signup-btn"
+                                    class="px-3.5 py-1.5 bg-gray-100 hover:bg-black hover:text-white rounded-full text-xs font-semibold text-gray-700 transition-colors border border-gray-200">
+                                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Autofill Sample
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Signup Form -->
+                        <form id="signup-page-form" class="space-y-4" novalidate>
+                            <!-- Full Name & Phone -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="signup-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Full Name *</label>
+                                    <input type="text" id="signup-name" required placeholder="Alex Morgan"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="name-error">Please enter your full name</span>
+                                </div>
+                                <div>
+                                    <label for="signup-phone" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Phone Number *</label>
+                                    <input type="tel" id="signup-phone" required placeholder="(503) 555-0123"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="phone-error">Please enter a valid phone number</span>
+                                </div>
+                            </div>
+
+                            <!-- Email & Address -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="signup-email" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Email Address *</label>
+                                    <input type="email" id="signup-email" required placeholder="alex@salemsolar.com"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="email-error">Please enter a valid email address</span>
+                                </div>
+                                <div>
+                                    <label for="signup-address" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Property Address</label>
+                                    <input type="text" id="signup-address" placeholder="1024 Elm St, Salem, OR 97302"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                </div>
+                            </div>
+
+                            <!-- System Config -->
+                            <div>
+                                <label for="signup-system" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Solar Installation Configuration</label>
+                                <select id="signup-system" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white">
+                                    <option value="res-solar-battery">Residential Solar + PowerCore Battery (10kW / 15kWh)</option>
+                                    <option value="res-solar-only">Residential Solar Grid-Tied (7.5kW)</option>
+                                    <option value="commercial-microgrid">Commercial / Vineyard Microgrid (50kW+)</option>
+                                    <option value="new-consultation">Prospective Client (System Not Installed Yet)</option>
+                                </select>
+                            </div>
+
+                            <!-- Password & Confirm -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="signup-password" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Create Password *</label>
+                                    <input type="password" id="signup-password" required placeholder="Min 8 characters"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                    <!-- Strength bar -->
+                                    <div class="w-full bg-gray-200 h-1.5 rounded-full mt-2 overflow-hidden">
+                                        <div id="password-strength-bar" class="h-full bg-red-400 w-0 transition-all duration-300"></div>
+                                    </div>
+                                    <span class="text-[10px] text-gray-400 mt-1 block" id="strength-label">Password strength: Weak</span>
+                                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="password-error">Password must be at least 8 characters</span>
+                                </div>
+                                <div>
+                                    <label for="signup-confirm-password" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Confirm Password *</label>
+                                    <input type="password" id="signup-confirm-password" required placeholder="Re-enter password"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                    <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="confirm-password-error">Passwords do not match</span>
+                                </div>
+                            </div>
+
+                            <!-- Terms -->
+                            <div class="pt-1">
+                                <label class="flex items-start gap-2.5 cursor-pointer text-xs text-gray-600">
+                                    <input type="checkbox" id="terms-check" class="mt-0.5 rounded border-gray-300 text-black focus:ring-black" />
+                                    <span>I agree to Stackly's <a href="services.html" class="font-semibold text-black hover:underline">Telemetry Service Terms</a> and consent to receiving Oregon clean energy utility synchronization notices.</span>
+                                </label>
+                                <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="terms-error">You must accept the terms to activate portal access</span>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" id="submit-signup-btn"
+                                class="w-full py-4 bg-black text-white font-bold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 text-sm mt-2 hover:scale-[1.01]">
+                                <span>Complete Registration &amp; Open Dashboard</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </form>
+
+                        <!-- Footer link -->
+                        <div class="mt-7 pt-6 border-t border-gray-100 text-center text-xs text-gray-600">
+                            Already registered? <a href="login.html" class="font-bold text-black hover:underline">Log in to your portal</a>
+                            &nbsp;&bull;&nbsp;
+                            <a href="index.html" class="font-bold text-black hover:underline">Return Home</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature bullets below card -->
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-6 text-gray-300 text-xs">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Live kW Telemetry</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Battery SOC Manager</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> Net Metering Credits</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-emerald-400"></i> 25-yr Warranty</span>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="general-toast" class="fixed bottom-6 right-6 z-50 bg-black text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 border border-gray-800">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center" id="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <p class="text-sm font-semibold" id="toast-title">Account Created</p>
+            <p class="text-xs text-gray-400" id="toast-message">Redirecting to your dashboard...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Role Toggle
+            const roleButtons = document.querySelectorAll('.role-btn');
+            let currentRole = 'user';
+
+            function setRole(role) {
+                currentRole = role;
+                roleButtons.forEach(btn => {
+                    if (btn.getAttribute('data-role') === role) {
+                        btn.classList.add('role-btn-active');
+                        btn.classList.remove('role-btn-inactive');
+                    } else {
+                        btn.classList.remove('role-btn-active');
+                        btn.classList.add('role-btn-inactive');
+                    }
+                });
+            }
+            roleButtons.forEach(btn => btn.addEventListener('click', () => setRole(btn.getAttribute('data-role'))));
+
+            // Toast Utility
+            const toast = document.getElementById('general-toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+
+            function showToast(title, message, isError = false) {
+                if (!toast) return;
+                toastTitle.textContent = title;
+                toastMsg.textContent = message;
+                const icon = document.getElementById('toast-icon');
+                if (icon) {
+                    if (isError) {
+                        icon.className = 'w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center';
+                        icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                    } else {
+                        icon.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center';
+                        icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    }
+                }
+                toast.classList.remove('translate-y-24', 'opacity-0');
+                setTimeout(() => toast.classList.add('translate-y-24', 'opacity-0'), 4000);
+            }
+
+            // Form elements
+            const signupForm = document.getElementById('signup-page-form');
+            const nameInput = document.getElementById('signup-name');
+            const phoneInput = document.getElementById('signup-phone');
+            const emailInput = document.getElementById('signup-email');
+            const addressInput = document.getElementById('signup-address');
+            const passwordInput = document.getElementById('signup-password');
+            const confirmPasswordInput = document.getElementById('signup-confirm-password');
+            const termsCheck = document.getElementById('terms-check');
+            const submitBtn = document.getElementById('submit-signup-btn');
+
+            const nameError = document.getElementById('name-error');
+            const phoneError = document.getElementById('phone-error');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const confirmPasswordError = document.getElementById('confirm-password-error');
+            const termsError = document.getElementById('terms-error');
+            const strengthBar = document.getElementById('password-strength-bar');
+            const strengthLabel = document.getElementById('strength-label');
+
+            function updatePasswordStrength(val) {
+                if (!val) {
+                    strengthBar.style.width = '0%';
+                    strengthBar.className = 'h-full bg-red-400 transition-all duration-300';
+                    strengthLabel.textContent = 'Password strength: Weak';
+                    return;
+                }
+                let strength = 0;
+                if (val.length >= 8) strength += 30;
+                if (/[A-Z]/.test(val)) strength += 25;
+                if (/[0-9]/.test(val)) strength += 25;
+                if (/[^A-Za-z0-9]/.test(val)) strength += 20;
+                strengthBar.style.width = `${strength}%`;
+                if (strength < 50) {
+                    strengthBar.className = 'h-full bg-red-500 transition-all duration-300';
+                    strengthLabel.textContent = 'Password strength: Weak';
+                } else if (strength < 80) {
+                    strengthBar.className = 'h-full bg-yellow-500 transition-all duration-300';
+                    strengthLabel.textContent = 'Password strength: Good';
+                } else {
+                    strengthBar.className = 'h-full bg-emerald-500 transition-all duration-300';
+                    strengthLabel.textContent = 'Password strength: Strong (Optimal)';
+                }
+            }
+
+            passwordInput.addEventListener('input', (e) => updatePasswordStrength(e.target.value));
+
+            // Autofill
+            const autofillBtn = document.getElementById('autofill-signup-btn');
+            if (autofillBtn) {
+                autofillBtn.addEventListener('click', () => {
+                    nameInput.value = 'Alex Morgan';
+                    phoneInput.value = '(503) 555-0199';
+                    emailInput.value = 'alex.morgan@salemsolar.com';
+                    addressInput.value = '1024 Elm Street, Salem, OR 97302';
+                    passwordInput.value = 'SalemCleanEnergy2026!';
+                    confirmPasswordInput.value = 'SalemCleanEnergy2026!';
+                    termsCheck.checked = true;
+                    updatePasswordStrength(passwordInput.value);
+                    clearErrors();
+                    showToast('Sample Data Filled', 'Ready to submit registration.');
+                });
+            }
+
+            function clearErrors() {
+                [nameError, phoneError, emailError, passwordError, confirmPasswordError, termsError].forEach(el => el.classList.add('hidden'));
+                [nameInput, phoneInput, emailInput, passwordInput, confirmPasswordInput].forEach(el => el.classList.remove('border-red-500'));
+            }
+
+            function validateEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    clearErrors();
+                    let hasError = false;
+
+                    if (!nameInput.value.trim() || nameInput.value.trim().length < 2) {
+                        nameError.classList.remove('hidden');
+                        nameInput.classList.add('border-red-500');
+                        hasError = true;
+                    }
+                    if (!phoneInput.value.trim() || phoneInput.value.trim().length < 7) {
+                        phoneError.classList.remove('hidden');
+                        phoneInput.classList.add('border-red-500');
+                        hasError = true;
+                    }
+                    if (!emailInput.value.trim() || !validateEmail(emailInput.value.trim())) {
+                        emailError.classList.remove('hidden');
+                        emailInput.classList.add('border-red-500');
+                        hasError = true;
+                    }
+                    if (!passwordInput.value || passwordInput.value.length < 8) {
+                        passwordError.classList.remove('hidden');
+                        passwordInput.classList.add('border-red-500');
+                        hasError = true;
+                    }
+                    if (passwordInput.value !== confirmPasswordInput.value) {
+                        confirmPasswordError.classList.remove('hidden');
+                        confirmPasswordInput.classList.add('border-red-500');
+                        hasError = true;
+                    }
+                    if (!termsCheck.checked) {
+                        termsError.classList.remove('hidden');
+                        hasError = true;
+                    }
+
+                    if (hasError) {
+                        showToast('Validation Error', 'Please complete all required fields.', true);
+                        return;
+                    }
+
+                    const email = emailInput.value.trim();
+                    const name = nameInput.value.trim();
+                    const isAdmin = currentRole === 'admin';
+                    const targetDashboard = isAdmin ? 'admin dashboard.html' : 'user dashboard.html';
+
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('email', email);
+                    localStorage.setItem('currentUserEmail', email);
+                    localStorage.setItem('currentUserRole', currentRole);
+                    if (name) localStorage.setItem('name', name);
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Provisioning Salem Telemetry Portal...';
+
+                    setTimeout(() => {
+                        showToast('Account Created!', 'Welcome to Stackly! Opening your clean energy dashboard...');
+                        setTimeout(() => { window.location.href = targetDashboard; }, 1000);
+                    }, 800);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

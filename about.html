@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Stackly - Clean Energy, Smart Home</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="validation.js" defer></script>
+    <!-- Google Fonts: Inter for a clean, modern sans-serif look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Tailwind Configuration to match design aesthetics -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#f9f9f9',
+                        accent: '#e5e7eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white selection:bg-gray-300 selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 group transition-all" id="logo-text">
+                        <img id="nav-logo-img" src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain transition-all duration-300">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Home</a>
+                    <a href="about.html" class="nav-link text-white font-semibold text-sm transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-white">About</a>
+                    <a href="services.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Services</a>
+                    <a href="blog.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Blog</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Contact</a>
+                    <a id="login-btn" href="login.html" class="text-black bg-white hover:bg-gray-100 px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2 shadow-sm border border-transparent">
+                        Login <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gray-300 focus:outline-none transition-colors duration-300" id="mobile-btn-icon">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl absolute w-full transition-all duration-300 ease-in-out transform -translate-y-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 sm:px-3 flex flex-col gap-4 mt-4">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Home</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-semibold text-black bg-gray-50 rounded-md">About</a>
+                <a href="services.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Services</a>
+                <a href="blog.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Blog</a>
+                <a href="contact.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Contact</a>
+                <a id="mobile-login-btn" href="login.html" class="block w-full py-2.5 text-base font-medium text-center text-white bg-black rounded-full hover:bg-gray-800 mt-2">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-black text-white pt-24 pb-16">
+        <div class="absolute inset-0 z-0">
+            <img src="images/about-hero.webp" alt="Solar Architecture" class="w-full h-full object-cover opacity-45 scale-105 transition-transform duration-1000 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center mt-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase mb-6 text-gray-200">
+                <i class="fa-solid fa-seedling text-emerald-400"></i> Empowering Salem, Oregon
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                Pioneering the Future of <br class="hidden sm:inline" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">Autonomous Clean Living.</span>
+            </h1>
+            <p class="text-base sm:text-xl text-gray-300 max-w-3xl mx-auto font-light mb-10 leading-relaxed">
+                Founded with a mission to decentralize power generation, Stackly builds architectural solar systems, intelligent home storage, and smart grid software for lasting energy independence.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#mission" class="bg-white hover:bg-gray-100 text-black px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 shadow-xl hover:scale-105">
+                    Our Story & Mission <i class="fa-solid fa-arrow-down text-xs"></i>
+                </a>
+                <a href="#team" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2">
+                    Meet the Team <i class="fa-solid fa-users text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Origin Story Section -->
+    <section id="mission" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-6 space-y-6">
+                    <p class="text-xs font-bold tracking-widest text-gray-400 uppercase">Who We Are</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-black leading-tight tracking-tight">
+                        We don't just bolt panels on roofs. We engineer smart energy ecosystems.
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed text-base">
+                        Born in Salem in 2018, Stackly started with five electrical engineers who asked a simple question: <strong class="text-black font-semibold">Why is modern home energy still chained to vulnerable, fossil-fueled grids?</strong>
+                    </p>
+                    <p class="text-gray-600 leading-relaxed text-base">
+                        Oregon has abundant natural energy. By pairing ultra-high-density bifacial solar arrays with intelligent battery storage and local telemetry, we transform single-family homes and Salem businesses into resilient, self-generating micro-utilities.
+                    </p>
+
+                    <div class="pt-4 grid grid-cols-2 gap-6 border-t border-gray-100">
+                        <div>
+                            <p class="text-3xl font-extrabold text-black">100%</p>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Renewable Engineering</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-extrabold text-black">5,200+</p>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">Salem Homes Energized</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div class="relative">
+                        <div class="rounded-3xl overflow-hidden shadow-2xl h-[460px] relative">
+                            <img src="images/clean-energy-architecture.webp" alt="Smart modern home interior" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                            
+                            <!-- Floating Glass Badge -->
+                            <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/50 text-black">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">Certified Net-Zero</span>
+                                    <span class="text-xs text-gray-500">Salem, OR</span>
+                                </div>
+                                <h3 class="font-bold text-lg mb-1">Autonomous Living Made Simple</h3>
+                                <p class="text-xs text-gray-600">Generating up to 250kWh surplus power monthly while lowering utility overhead by 92%.</p>
+                            </div>
+                        </div>
+
+                        <!-- Secondary floating accent badge -->
+                        <div class="absolute -top-6 -right-6 hidden sm:flex items-center gap-3 bg-black text-white px-5 py-3 rounded-2xl shadow-xl border border-gray-800">
+                            <i class="fa-solid fa-award text-yellow-400 text-xl"></i>
+                            <div>
+                                <p class="text-xs font-bold leading-tight">2026 Oregon Green Award</p>
+                                <p class="text-[10px] text-gray-400">Clean Energy Innovator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="py-24 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Our Principles</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">Values that Guide Every Circuit</h2>
+                <p class="text-gray-600">Every panel we install, line of software we write, and customer we consult is grounded in uncompromising principles.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Value 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Radical Efficiency</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            We deploy Tier-1 N-Type TOPCon and bifacial cells, extracting maximum energy even during Willamette Valley's overcast winter days.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 mt-6 block">01 / EFFICIENCY</span>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-house-chimney-window"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Architectural Harmony</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Clean energy should enhance property aesthetics. All-black flush mounts, hidden conduit pathways, and minimalist inverter cabinets.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 mt-6 block">02 / DESIGN</span>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Smart Autonomy</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            AI-driven telemetry that auto-detects peak utility rates, charging your battery off-peak and providing instant blackout backup.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 mt-6 block">03 / SOFTWARE</span>
+                </div>
+
+                <!-- Value 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Salem Community First</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            100% locally employed licensed electricians and NABCEP-certified technicians. 25-year comprehensive equipment and labor warranty.
+                        </p>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 mt-6 block">04 / INTEGRITY</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Stats Section from Home Page -->
+    <section class="py-24 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Proven Track Record</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Better Technology. Higher Conversion.</h2>
+                <p class="text-lg text-gray-600">Our residences generate up to 50% more energy than they consume, ensuring a greener tomorrow for Salem.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="rounded-3xl overflow-hidden shadow-2xl relative group bg-black text-white h-[500px] flex flex-col justify-end p-8">
+                    <!-- Stylized building graphic -->
+                    <div class="absolute inset-0 opacity-40 mix-blend-luminosity">
+                        <img src="images/commercial-building.webp" class="w-full h-full object-cover" alt="Modern Building">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-building text-4xl mb-4 text-gray-300"></i>
+                        <h3 class="text-3xl font-bold mb-2">Sustainable Architecture</h3>
+                        <p class="text-gray-400">Integrating solar tech directly into building design.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-12 pl-0 lg:pl-12">
+                    <div>
+                        <h3 class="text-6xl md:text-7xl font-bold text-black mb-2 tracking-tighter">250kWh</h3>
+                        <p class="text-gray-600">Homes built with sustainable materials have increased by 30% in energy efficiency.</p>
+                    </div>
+                    <div class="h-px w-full bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-6xl md:text-7xl font-bold text-black mb-2 tracking-tighter">60%</h3>
+                        <p class="text-gray-600">Client satisfaction ratings have reached 96% due to lower utility bills.</p>
+                    </div>
+                    <div class="h-px w-full bg-gray-200"></div>
+                    <div>
+                        <h3 class="text-6xl md:text-7xl font-bold text-black mb-2 tracking-tighter">140%<span class="text-3xl text-gray-400 align-top">+</span></h3>
+                        <p class="text-gray-600">Solar installations have grown across local communities in two years.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Timeline / Milestones -->
+    <section class="py-24 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Our Evolution</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">Milestones in the Energy Transition</h2>
+                <p class="text-gray-600">From a small lab in downtown Salem to Oregon's most innovative smart energy partner.</p>
+            </div>
+
+            <div class="relative">
+                <!-- Center vertical line for desktop -->
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-200"></div>
+
+                <div class="space-y-12 relative">
+                    <!-- 2018 -->
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 md:text-right pr-0 md:pr-12">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">2018 &bull; Inception</span>
+                            <h3 class="text-2xl font-bold mt-1 mb-2">Founded in Salem, Oregon</h3>
+                            <p class="text-sm text-gray-600">Five photovoltaic engineers banded together to bring premium aesthetic solar solutions directly to Salem homeowners.</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs z-10 shadow-lg ring-8 ring-secondary">
+                            18
+                        </div>
+                        <div class="md:w-1/2 pl-0 md:pl-12">
+                            <div class="rounded-2xl overflow-hidden h-44 shadow-md bg-white">
+                                <img src="images/lab-origins.webp" alt="Lab origins" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2021 -->
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 order-2 md:order-1 pr-0 md:pr-12">
+                            <div class="rounded-2xl overflow-hidden h-44 shadow-md bg-white">
+                                <img src="images/smart-inverter.webp" alt="Smart Inverter" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs z-10 shadow-lg ring-8 ring-secondary order-1 md:order-2">
+                            21
+                        </div>
+                        <div class="md:w-1/2 order-3 pl-0 md:pl-12">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">2021 &bull; Technology</span>
+                            <h3 class="text-2xl font-bold mt-1 mb-2">Stackly Energy Hub 1.0</h3>
+                            <p class="text-sm text-gray-600">Launched our proprietary home telemetry controller, giving homeowners real-time kW production insight down to the individual circuit.</p>
+                        </div>
+                    </div>
+
+                    <!-- 2024 -->
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 md:text-right pr-0 md:pr-12">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">2024 &bull; Scale</span>
+                            <h3 class="text-2xl font-bold mt-1 mb-2">Home Unit 600W & Battery Hub</h3>
+                            <p class="text-sm text-gray-600">Introduced high-output 600W modules and modular LFP battery storage, enabling 48-hour continuous off-grid resilience during winter storms.</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs z-10 shadow-lg ring-8 ring-secondary">
+                            24
+                        </div>
+                        <div class="md:w-1/2 pl-0 md:pl-12">
+                            <div class="rounded-2xl overflow-hidden h-44 shadow-md bg-white">
+                                <img src="images/solar-panels-closeup.webp" alt="600W panel" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2026 -->
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/2 order-2 md:order-1 pr-0 md:pr-12">
+                            <div class="rounded-2xl overflow-hidden h-44 shadow-md bg-white">
+                                <img src="images/about-hero.webp" alt="Future city" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-xs z-10 shadow-lg ring-8 ring-secondary order-1 md:order-2">
+                            26
+                        </div>
+                        <div class="md:w-1/2 order-3 pl-0 md:pl-12">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-400">2026 &bull; Today</span>
+                            <h3 class="text-2xl font-bold mt-1 mb-2">Salem Community Microgrids</h3>
+                            <p class="text-sm text-gray-600">Expanding into bidirectional EV charging, peer-to-peer clean power exchange, and neighborhood zero-emission clusters across Oregon.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership & Engineering Team -->
+    <section id="team" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+                <div>
+                    <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">The Innovators</p>
+                    <h2 class="text-4xl md:text-5xl font-bold text-black">Led by Engineers & Visionaries</h2>
+                </div>
+                <a href="contact.html" class="inline-flex items-center gap-2 text-sm font-semibold text-black hover:text-gray-600 transition-colors border-b border-black pb-1">
+                    Join Our Salem Team <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Member 1 -->
+                <div class="group">
+                    <div class="rounded-2xl overflow-hidden h-80 mb-4 bg-gray-100 shadow-md relative">
+                        <img src="images/team-elena.webp" alt="Elena Rostova" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-lg text-black opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="#" class="hover:text-blue-600"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-black">Elena Rostova</h3>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chief Executive Officer & Founder</p>
+                    <p class="text-xs text-gray-600">Former Tesla Energy researcher, leading Stackly's sustainable hardware strategy.</p>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="group">
+                    <div class="rounded-2xl overflow-hidden h-80 mb-4 bg-gray-100 shadow-md relative">
+                        <img src="images/team-marcus.webp" alt="Marcus Vance" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-lg text-black opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="#" class="hover:text-blue-600"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-black">Marcus Vance</h3>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">VP of Solar Photovoltaics</p>
+                    <p class="text-xs text-gray-600">20+ years designing high-efficiency solar farms and rooftop microinverters.</p>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="group">
+                    <div class="rounded-2xl overflow-hidden h-80 mb-4 bg-gray-100 shadow-md relative">
+                        <img src="images/team-sarah.webp" alt="Dr. Maya Lin" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-lg text-black opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="#" class="hover:text-blue-600"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-black">Dr. Maya Lin</h3>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Chief Battery & AI Architect</p>
+                    <p class="text-xs text-gray-600">Ph.D. in Chemical Engineering; pioneers our safe LFP thermal battery management.</p>
+                </div>
+
+                <!-- Member 4 -->
+                <div class="group">
+                    <div class="rounded-2xl overflow-hidden h-80 mb-4 bg-gray-100 shadow-md relative">
+                        <img src="images/team-david.webp" alt="Julian Croft" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105">
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm p-2 rounded-lg text-black opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="#" class="hover:text-blue-600"><i class="fa-brands fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="text-lg font-bold text-black">Julian Croft</h3>
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Head of Field Operations</p>
+                    <p class="text-xs text-gray-600">Salem native and Master Electrician supervising all Marion county installations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Testimonial Slider Section from Home Page -->
+    <section class="py-24 bg-white overflow-hidden relative border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center mb-12">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">What Salem Says</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Trusted by Architects and Homeowners</h2>
+            </div>
+            
+            <!-- Slider Container -->
+            <div class="relative w-full overflow-hidden" id="slider-container">
+                <!-- Track -->
+                <div class="flex transition-transform duration-500 ease-in-out" id="slider-track">
+                    
+                    <!-- Slide 1 -->
+                    <div class="w-full flex-shrink-0 px-2 lg:px-4">
+                        <div class="bg-secondary rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="md:w-1/2 rounded-2xl overflow-hidden h-64 md:h-96 w-full shadow-lg relative group">
+                                <img src="images/ev-charging.webp" alt="EV Charging" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-md max-w-[250px]">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <img src="images/avatar-alex.webp" alt="Alex" class="w-10 h-10 rounded-full">
+                                        <div>
+                                            <p class="text-sm font-bold leading-tight">Alex Morgan</p>
+                                            <p class="text-xs text-gray-500">Architect</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs italic text-gray-700">"The best decision I made was choosing this team for our Salem project!"</p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 space-y-6">
+                                <h2 class="text-4xl md:text-5xl font-bold leading-tight">Transform Your Home with Clean Energy</h2>
+                                <p class="text-gray-600">Discover innovative solutions for smart homes.</p>
+                                <a href="services.html" class="inline-flex items-center px-6 py-3 rounded-full bg-white border border-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm gap-2">
+                                    Learn More <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-gray-200">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-leaf text-gray-400"></i><h4 class="font-bold text-sm">Sustainable Design</h4></div>
+                                        <p class="text-xs text-gray-500">Bringing eco-friendly architecture to your home.</p>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-bolt text-gray-400"></i><h4 class="font-bold text-sm">Energy Efficiency</h4></div>
+                                        <p class="text-xs text-gray-500">Reduce costs with advanced technologies and materials.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="w-full flex-shrink-0 px-2 lg:px-4">
+                        <div class="bg-secondary rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="md:w-1/2 space-y-6 order-2 md:order-1">
+                                <h2 class="text-4xl md:text-5xl font-bold leading-tight">Innovative Automation Solutions</h2>
+                                <p class="text-gray-600">Streamline your life with smart technology integrations.</p>
+                                <a href="contact.html" class="inline-flex items-center px-6 py-3 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm gap-2">
+                                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-gray-200">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-sun text-gray-400"></i><h4 class="font-bold text-sm">Smart Solar Systems</h4></div>
+                                        <p class="text-xs text-gray-500">Harness the sun for endless energy supply.</p>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-shield-halved text-gray-400"></i><h4 class="font-bold text-sm">Integrated Security</h4></div>
+                                        <p class="text-xs text-gray-500">Protect your home with advanced smart tech.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 rounded-2xl overflow-hidden h-64 md:h-96 w-full shadow-lg relative group order-1 md:order-2">
+                                <img src="images/modern-residence.webp" alt="Modern Architecture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-md max-w-[250px]">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <img src="images/avatar-jamie.webp" alt="Jamie" class="w-10 h-10 rounded-full">
+                                        <div>
+                                            <p class="text-sm font-bold leading-tight">Jamie Taylor</p>
+                                            <p class="text-xs text-gray-500">Engineer</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs italic text-gray-700">"Their expertise greatly improved my home's efficiency."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="w-full flex-shrink-0 px-2 lg:px-4">
+                        <div class="bg-secondary rounded-3xl p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center h-full">
+                            <div class="md:w-1/2 rounded-2xl overflow-hidden h-64 md:h-96 w-full shadow-lg relative group">
+                                <img src="images/green-space.webp" alt="Green space" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur p-4 rounded-xl shadow-md max-w-[250px]">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <img src="images/avatar-skyler.webp" alt="Skyler" class="w-10 h-10 rounded-full">
+                                        <div>
+                                            <p class="text-sm font-bold leading-tight">Skyler Lee</p>
+                                            <p class="text-xs text-gray-500">Designer</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs italic text-gray-700">"This service transformed my approach to home energy use."</p>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 space-y-6">
+                                <h2 class="text-4xl md:text-5xl font-bold leading-tight">Client-Centric Approach</h2>
+                                <p class="text-gray-600">Prioritizing customer satisfaction in energy solutions.</p>
+                                <a href="services.html" class="inline-flex items-center px-6 py-3 rounded-full bg-white border border-gray-200 text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm gap-2">
+                                    Learn More <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-8 border-t border-gray-200">
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-handshake text-gray-400"></i><h4 class="font-bold text-sm">Dedicated Support</h4></div>
+                                        <p class="text-xs text-gray-500">We are with you every step of the way.</p>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-trophy text-gray-400"></i><h4 class="font-bold text-sm">Award-Winning Expertise</h4></div>
+                                        <p class="text-xs text-gray-500">Recognized for excellence in smart home design.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Slider Controls -->
+            <div class="flex justify-center items-center mt-8 gap-4">
+                <button id="prevBtn" class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"><i class="fa-solid fa-arrow-left text-sm"></i></button>
+                <div class="flex gap-2" id="slider-dots">
+                    <button class="w-4 h-2 rounded-full bg-black transition-all" data-index="0"></button>
+                    <button class="w-2 h-2 rounded-full bg-gray-300 transition-all" data-index="1"></button>
+                    <button class="w-2 h-2 rounded-full bg-gray-300 transition-all" data-index="2"></button>
+                </div>
+                <button id="nextBtn" class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"><i class="fa-solid fa-arrow-right text-sm"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Partners Logo Marquee from Home Page -->
+    <section class="py-12 bg-secondary border-t border-gray-200 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-6">Trusted partners in smart, clean energy solutions.</p>
+            <div class="flex space-x-12 animate-marquee whitespace-nowrap opacity-50">
+                <i class="fa-brands fa-aws text-3xl"></i>
+                <i class="fa-brands fa-google text-3xl"></i>
+                <i class="fa-brands fa-apple text-3xl"></i>
+                <i class="fa-brands fa-microsoft text-3xl"></i>
+                <i class="fa-solid fa-bolt text-3xl"></i>
+                <i class="fa-solid fa-leaf text-3xl"></i>
+                <i class="fa-solid fa-solar-panel text-3xl"></i>
+                <!-- Repeat for continuous scroll effect -->
+                <i class="fa-brands fa-aws text-3xl"></i>
+                <i class="fa-brands fa-google text-3xl"></i>
+                <i class="fa-brands fa-apple text-3xl"></i>
+                <i class="fa-brands fa-microsoft text-3xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: CTA Section from Home Page -->
+    <section class="relative py-32 overflow-hidden bg-black text-white">
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="images/solar-farm-aerial.webp" class="w-full h-full object-cover grayscale" alt="Solar Farm Aerial">
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight drop-shadow-lg">Join the Movement</h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto drop-shadow-md">
+                Together we can power a brighter future. Share your story, your projects, and inspire others to choose clean energy.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="contact.html" class="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2">
+                    Get Started <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="services.html" class="bg-transparent hover:bg-white/10 border border-white/30 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm">
+                    Our Services <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Huge Contact Footer Area from Home Page -->
+    <footer id="contact" class="bg-black text-white pt-24 pb-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Massive typography overlay -->
+            <div class="relative mb-20 whitespace-nowrap overflow-hidden">
+                <h2 class="text-[15vw] font-black leading-none opacity-20 tracking-tighter mix-blend-overlay">Contact Contact Contact</h2>
+                <div class="absolute inset-0 flex flex-col justify-center items-start">
+                    <h3 class="text-3xl md:text-5xl font-bold max-w-lg leading-tight mb-8 relative z-10 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
+                        Explore Smart Solutions for Eco-Friendly Living in Salem
+                    </h3>
+                    <a href="contact.html" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors inline-flex items-center gap-2 relative z-10">
+                        Get Started <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-t border-gray-800 pt-16">
+                <div>
+                    <div class="mb-4">
+                        <a href="index.html" class="inline-block transition-opacity hover:opacity-80">
+                            <img src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain">
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Your Smart Home Awaits.</p>
+                    <p class="text-xs text-gray-500">Made with <i class="fa-solid fa-heart text-red-800 mx-1"></i> by Stackly Tech</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Pages</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors text-white font-medium">About</a></li>
+                        <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Solutions</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="services.html#residential" class="hover:text-white transition-colors">Residential Solar</a></li>
+                        <li><a href="services.html#battery" class="hover:text-white transition-colors">Battery Storage</a></li>
+                        <li><a href="services.html#smart-home" class="hover:text-white transition-colors">Smart Automation</a></li>
+                        <li><a href="services.html#calculator" class="hover:text-white transition-colors">Savings Calculator</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Connect & Portals</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="user-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house-signal text-xs"></i> User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs"></i> Admin Dashboard</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Login Portal</a></li>
+                        <li><a href="signup.html" class="hover:text-white transition-colors">Create Account</a></li>
+                        <li><a href="404.html" class="hover:text-white transition-colors">404 Error Page</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Stackly Energy Salem. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white" aria-label="X (formerly Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navbar Scroll Effect ---
+            const navbar = document.getElementById('navbar');
+            const logoText = document.getElementById('logo-text');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loginBtn = document.getElementById('login-btn');
+            
+            window.addEventListener('scroll', () => {
+                const navLogo = document.getElementById('nav-logo-img');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md');
+                    navbar.classList.remove('bg-transparent', 'py-4');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-dark.webp';
+                    logoText.classList.remove('text-white');
+                    logoText.classList.add('text-black');
+                    mobileBtn.classList.remove('text-white');
+                    mobileBtn.classList.add('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-white', 'hover:text-gray-300');
+                        link.classList.add('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.remove('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.add('bg-black', 'text-white', 'hover:bg-gray-800');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-md');
+                    navbar.classList.add('bg-transparent');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-light.webp';
+                    logoText.classList.add('text-white');
+                    logoText.classList.remove('text-black');
+                    mobileBtn.classList.add('text-white');
+                    mobileBtn.classList.remove('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.add('text-white', 'hover:text-gray-300');
+                        link.classList.remove('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.add('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.remove('bg-black', 'text-white', 'hover:bg-gray-800');
+                }
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('-translate-y-full');
+                    }, 10);
+                } else {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                });
+            });
+
+            // --- Custom Testimonial Slider ---
+            const track = document.getElementById('slider-track');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dots = document.querySelectorAll('#slider-dots button');
+            
+            let currentIndex = 0;
+            const slidesCount = dots.length;
+
+            function updateSlider() {
+                if (!track) return;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.replace('bg-gray-300', 'bg-black');
+                        dot.classList.add('w-4');
+                        dot.classList.remove('w-2');
+                    } else {
+                        dot.classList.replace('bg-black', 'bg-gray-300');
+                        dot.classList.remove('w-4');
+                        dot.classList.add('w-2');
+                    }
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % slidesCount;
+                    updateSlider();
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + slidesCount) % slidesCount;
+                    updateSlider();
+                });
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateSlider();
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homeowner Solar Portal | Stackly Clean Energy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="text-animations.js" defer></script>
+    <script src="validation.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #0D2119;
+            --accent: #10B981; /* Solar Emerald Green */
+            --accent-gold: #F59E0B; /* Solar Sun Gold */
+            --bg-light: #F4F7F5; /* Crisp Solar Eco Off-white */
+            --card-bg: #ffffff;
+            --text-dark: #0D2119;
+            --text-muted: #52665D;
+            --border-color: #E2ECE6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Card Hover Effects */
+        .premium-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(13, 33, 25, 0.03), 0 2px 4px -1px rgba(13, 33, 25, 0.02);
+        }
+
+        .premium-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(13, 33, 25, 0.08), 0 8px 10px -6px rgba(13, 33, 25, 0.03);
+            transform: translateY(-2px);
+        }
+
+        /* Nav Item Styles */
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: #4b5563;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: #ecfdf5;
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+        
+        .nav-item.active i {
+            color: var(--accent);
+        }
+
+        /* Progress Bar */
+        .progress-track {
+            height: 8px;
+            background: #e2ece6;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #F59E0B);
+            border-radius: 999px;
+            position: relative;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Entry Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+
+        /* SPA Dashboard Section Visibility */
+        .dashboard-section {
+            display: none !important;
+        }
+        .dashboard-section.active {
+            display: block !important;
+            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Navigation (Desktop) -->
+    <aside class="w-64 bg-white border-r border-gray-200 h-full flex-col hidden lg:flex z-20">
+        <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5 group"><img src="images/stackly-logo-dark.webp" alt="Stackly Logo" class="h-7 w-auto object-contain"></a>
+            <span class="text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2 py-0.5 rounded-full uppercase tracking-wider">Active Array</span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-6">
+            <!-- Nav Section 1: SYSTEM & TELEMETRY -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">System & Telemetry</p>
+                    <span class="text-[10px] font-bold text-gray-400">01</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-dashboard" class="nav-item active">
+                        <i class="ph-fill ph-squares-four text-xl"></i> 
+                        <span class="flex-1">Live Telemetry</span>
+                    </a>
+                    <a href="#section-deliverables" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-solar-panel text-xl"></i> Hardware & Specs
+                        </div>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">4</span>
+                    </a>
+                    <a href="#section-timeline" class="nav-item">
+                        <i class="ph ph-clock-counter-clockwise text-xl"></i> Commissioning
+                    </a>
+                    <a href="#section-milestones" class="nav-item">
+                        <i class="ph ph-check-circle text-xl"></i> Net Metering
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 2: SERVICES & CONCIERGE -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">Services & Concierge</p>
+                    <span class="text-[10px] font-bold text-gray-400">02</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-messages" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-chat-circle-dots text-xl"></i> Solar Concierge
+                        </div>
+                        <span class="w-2 h-2 bg-[var(--accent)] rounded-full animate-pulse"></span>
+                    </a>
+                    <a href="#section-reviews" class="nav-item">
+                        <i class="ph ph-shield-check text-xl"></i> System Audits
+                    </a>
+                    <a href="#section-meetings" class="nav-item">
+                        <i class="ph ph-calendar-blank text-xl"></i> Field Tech Visits
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 3: TARIFFS & WARRANTY -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">Tariffs & Warranty</p>
+                    <span class="text-[10px] font-bold text-gray-400">03</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-invoices" class="nav-item flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <i class="ph ph-receipt text-xl"></i> Billing & Credits
+                        </div>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                    </a>
+                    <a href="#section-contracts" class="nav-item">
+                        <i class="ph ph-file-text text-xl"></i> 25-Yr Warranties
+                    </a>
+                    <a href="#section-proposals" class="nav-item">
+                        <i class="ph ph-file-arrow-down text-xl"></i> System SOW & Specs
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Nav Section 4: SETTINGS & SUPPORT -->
+            <div>
+                <div class="flex items-center justify-between mb-2.5 px-2">
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">Settings & Support</p>
+                    <span class="text-[10px] font-bold text-gray-400">04</span>
+                </div>
+                <nav class="space-y-1">
+                    <a href="#section-settings" class="nav-item">
+                        <i class="ph ph-gear text-xl"></i> System Settings
+                    </a>
+                    <a href="#section-help" class="nav-item">
+                        <i class="ph ph-question text-xl"></i> Solar Help & FAQs
+                    </a>
+                    <a href="index.html" class="nav-item text-gray-500 hover:text-black">
+                        <i class="ph ph-arrow-square-out text-xl"></i> Public Solar Site
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-gray-100">
+            <div id="logout-btn" class="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
+                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm shrink-0 su-avatar">
+                    SJ
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p id="user-profile-name" class="text-sm font-bold text-gray-900 truncate">Sarah Jenkins</p>
+                    <p id="user-profile-email" class="text-xs text-gray-500 truncate">sarah.jenkins@solargrid.com</p>
+                </div>
+                <i class="ph ph-sign-out text-gray-400 hover:text-red-500 transition-colors group-hover:text-red-500 text-lg"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Sidebar Drawer Overlay -->
+    <div id="mobile-sidebar-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden lg:hidden transition-opacity">
+        <aside class="w-72 bg-white h-full flex flex-col justify-between shadow-2xl p-0">
+            <div class="p-5 border-b border-gray-100 flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2.5"><img src="images/stackly-logo-dark.webp" alt="Stackly Logo" class="h-7 w-auto object-contain"></a>
+                <button id="close-mobile-drawer" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500 cursor-pointer">
+                    <i class="ph ph-x text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 space-y-6">
+                <!-- Section 1 -->
+                <div>
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest mb-2.5 px-2">System & Telemetry</p>
+                    <nav class="space-y-1">
+                        <a href="#section-dashboard" class="nav-item active"><i class="ph-fill ph-squares-four text-xl"></i> Live Telemetry</a>
+                        <a href="#section-deliverables" class="nav-item"><i class="ph ph-solar-panel text-xl"></i> Hardware & Specs</a>
+                        <a href="#section-timeline" class="nav-item"><i class="ph ph-clock-counter-clockwise text-xl"></i> Commissioning</a>
+                        <a href="#section-milestones" class="nav-item"><i class="ph ph-check-circle text-xl"></i> Net Metering</a>
+                    </nav>
+                </div>
+                <!-- Section 2 -->
+                <div>
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest mb-2.5 px-2">Services & Concierge</p>
+                    <nav class="space-y-1">
+                        <a href="#section-messages" class="nav-item"><i class="ph ph-chat-circle-dots text-xl"></i> Solar Concierge</a>
+                        <a href="#section-reviews" class="nav-item"><i class="ph ph-shield-check text-xl"></i> System Audits</a>
+                        <a href="#section-meetings" class="nav-item"><i class="ph ph-calendar-blank text-xl"></i> Field Tech Visits</a>
+                    </nav>
+                </div>
+                <!-- Section 3 -->
+                <div>
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest mb-2.5 px-2">Tariffs & Warranty</p>
+                    <nav class="space-y-1">
+                        <a href="#section-invoices" class="nav-item"><i class="ph ph-receipt text-xl"></i> Billing & Credits</a>
+                        <a href="#section-contracts" class="nav-item"><i class="ph ph-file-text text-xl"></i> 25-Yr Warranties</a>
+                        <a href="#section-proposals" class="nav-item"><i class="ph ph-file-arrow-down text-xl"></i> System SOW & Specs</a>
+                    </nav>
+                </div>
+                <!-- Section 4 -->
+                <div>
+                    <p class="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest mb-2.5 px-2">Settings & Support</p>
+                    <nav class="space-y-1">
+                        <a href="#section-settings" class="nav-item"><i class="ph ph-gear text-xl"></i> System Settings</a>
+                        <a href="#section-help" class="nav-item"><i class="ph ph-question text-xl"></i> Solar Help & FAQs</a>
+                        <a href="index.html" class="nav-item"><i class="ph ph-arrow-square-out text-xl"></i> Return to Site</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-gray-100">
+                <button onclick="localStorage.clear(); window.location.href='login.html';" class="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-red-50 hover:text-red-600 transition-colors text-sm cursor-pointer">
+                    <i class="ph ph-sign-out text-lg"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-scroll-container" class="flex-1 h-full overflow-y-auto relative scroll-smooth">
+        <!-- Mobile Header -->
+        <header class="lg:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center sticky top-0 z-30">
+            <a href="index.html" class="text-xl font-extrabold tracking-tighter flex items-center gap-2">
+                <img src="images/stackly-logo-dark.webp" alt="Stackly Logo" class="h-6 w-auto object-contain">
+            </a>
+            <button id="mobile-menu-toggle" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer">
+                <i class="ph ph-list text-xl"></i>
+            </button>
+        </header>
+
+        <div class="p-6 md:p-8 lg:p-12 max-w-6xl mx-auto space-y-8">
+            
+            <!-- SECTION 1: DASHBOARD / OVERVIEW -->
+            <section id="section-dashboard" class="dashboard-section active space-y-8">
+                <!-- Page Header -->
+                <header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 fade-in-up">
+                    <div>
+                        <p class="text-sm font-bold text-[var(--accent)] uppercase tracking-widest mb-1 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span> Grid-Tied Generation Active &bull; 9.8 kW DC Peak
+                        </p>
+                        <h1 id="heroWelcomeName" class="text-3xl md:text-5xl font-extrabold tracking-tighter text-gray-900">
+                            Residential Solar & Battery Telemetry
+                        </h1>
+                    </div>
+                    <div class="flex gap-3 w-full md:w-auto">
+                        <a href="#section-meetings" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-50 transition-colors">
+                            <i class="ph ph-calendar-blank text-lg"></i> Book Technician
+                        </a>
+                        <a href="#section-messages" class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-black transition-colors shadow-lg shadow-black/10">
+                            <i class="ph ph-paper-plane-tilt text-lg text-[var(--accent)]"></i> Solar Concierge
+                        </a>
+                    </div>
+                </header>
+
+                <!-- Progress & Quick Stats -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 fade-in-up delay-100">
+                    
+                    <!-- Main Progress Card -->
+                    <div class="premium-card p-6 lg:col-span-2 flex flex-col justify-between">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-900">Daily Solar Generation Target</h2>
+                                <p class="text-sm text-gray-500 mt-1">Current Output: 48.6 kWh / 52.0 kWh Daily Projection</p>
+                            </div>
+                            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">93% Complete</span>
+                        </div>
+                        
+                        <div>
+                            <div class="progress-track mb-3">
+                                <div class="progress-fill w-[93%]"></div>
+                            </div>
+                            <div class="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest">
+                                <span>Sunrise (6 AM)</span>
+                                <span>Peak Sun (12 PM)</span>
+                                <span class="text-emerald-700">Storage (3 PM)</span>
+                                <span>Grid Export (6 PM)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Milestone Card -->
+                    <div class="premium-card p-6 flex flex-col justify-center">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mb-4">
+                            <i class="ph-fill ph-lightning text-2xl text-[var(--accent)]"></i>
+                        </div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Next Utility True-Up</p>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">PGE NEM 3.0 Annual True-Up</h3>
+                        <p class="text-sm font-medium text-gray-600 flex items-center gap-2">
+                            <i class="ph ph-calendar"></i> Oct 31, 2026 &bull; Net Credit: +$428.50
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    <!-- Left Column (Solar Velocity Chart) -->
+                    <div class="xl:col-span-2 space-y-8 fade-in-up delay-200">
+                        <!-- Project Velocity Chart -->
+                        <div class="premium-card p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <h2 class="text-lg font-bold text-gray-900">Hourly Solar Production & Consumption (kW)</h2>
+                                    <p class="text-xs text-gray-500 mt-0.5">Real-time SolarEdge inverter microgrid telemetry</p>
+                                </div>
+                                <select class="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-[var(--accent)] focus:border-[var(--accent)] block p-2 outline-none font-medium">
+                                    <option>Today (Live Feed)</option>
+                                    <option>Last 7 Days</option>
+                                    <option>Last 30 Days</option>
+                                </select>
+                            </div>
+                            <div class="h-64 w-full">
+                                <canvas id="velocityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column (Invoices & Action Items) -->
+                    <div class="space-y-8 fade-in-up delay-300">
+                        <!-- Action Required -->
+                        <div class="premium-card p-6 border-l-4 border-l-[var(--accent-gold)]">
+                            <div class="flex items-center gap-3 mb-4">
+                                <i class="ph-fill ph-warning-circle text-[var(--accent-gold)] text-2xl"></i>
+                                <h2 class="text-lg font-bold text-gray-900">Action Required</h2>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">SolarEdge HD-Wave Inverter Firmware 4.19 is available. Please review and authorize the over-the-air optimization update.</p>
+                            <a href="#section-reviews" class="inline-block text-center w-full bg-[var(--primary)] text-white font-semibold py-2.5 rounded-xl hover:bg-black transition-colors text-sm">
+                                Review Diagnostics
+                            </a>
+                        </div>
+
+                        <!-- Mini Financial Summary -->
+                        <div class="premium-card p-6">
+                            <h2 class="text-lg font-bold text-gray-900 mb-4">Solar ROI & Energy Snapshot</h2>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 text-sm">
+                                <span class="text-gray-500">Estimated Annual Savings</span>
+                                <span class="font-bold text-gray-900">$2,840</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-100 text-sm">
+                                <span class="text-gray-500">Grid Independence Ratio</span>
+                                <span class="font-bold text-emerald-600">94.2%</span>
+                            </div>
+                            <a href="#section-invoices" class="block text-center mt-4 text-xs font-bold text-[var(--accent)] hover:underline">
+                                View Net Metering & Billing &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: DELIVERABLES & ASSETS -->
+            <section id="section-deliverables" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-100 pb-5">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Solar System Telemetry & Documentation</h2>
+                        <p class="text-sm text-gray-500">Access engineering blueprints, interconnection certificates, and warranty packages.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--primary)] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-black transition-colors flex items-center gap-2 cursor-pointer">
+                        <i class="ph ph-download-simple"></i> Download All Documents (.zip)
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Item 1 -->
+                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                                <i class="ph-fill ph-file-text text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">NEM 3.0 Utility Interconnection Agreement</p>
+                                <p class="text-xs text-gray-500">PGE Smart Grid Contract &bull; 4.2 MB PDF</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">Utility</span>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+                                <i class="ph-fill ph-solar-panel text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">SolarEdge HD-Wave Inverter Blueprint</p>
+                                <p class="text-xs text-gray-500">Single-Line Electrical Schematic &bull; CAD Blueprint</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">Schematic</span>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                                <i class="ph-fill ph-battery-charging text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">Tesla Powerwall 3 Storage Specs & Warranty</p>
+                                <p class="text-xs text-gray-500">13.5 kWh LFP Battery &bull; 25-Year Warranty</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Warranty</span>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div onclick="window.location.href='404.html'" class="flex items-center justify-between p-4 rounded-2xl border border-gray-200/80 hover:border-[var(--accent)] bg-gray-50/50 hover:bg-white transition-all group cursor-pointer shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+                                <i class="ph-fill ph-stamp text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 group-hover:text-[var(--accent)] transition-colors">AHJ City Permitting & Inspection Sign-Off</p>
+                                <p class="text-xs text-gray-500">Municipal Building & Electrical Final Permit</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">Permit</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: PROJECT TIMELINE -->
+            <section id="section-timeline" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-bold text-gray-900">Solar Permitting & Commissioning Timeline</h2>
+                    <p class="text-sm text-gray-500">Track system design, city approvals, installation phases, and grid synchronization.</p>
+                </div>
+
+                <div class="relative pl-6 space-y-8 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gray-200">
+                    <!-- Step 1 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm flex items-center justify-center"></div>
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-900 text-base">Phase 1: Site Survey & Structural Roof Engineering</h4>
+                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Completed Aug 15, 2026 &bull; Drone irradiance scan, structural roof load certification, and electrical panel inspection.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm"></div>
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-900 text-base">Phase 2: City AHJ Permitting & HOA Structural Clearance</h4>
+                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Completed Sep 02, 2026 &bull; City building safety stamps and HOA architectural sign-off received.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-emerald-500 border-4 border-white shadow-sm"></div>
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-900 text-base">Phase 3: Rooftop Solar & Powerwall 3 Battery Installation</h4>
+                                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Completed</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Completed Sep 20, 2026 &bull; 24 Tier-1 monocrystalline panels installed with SolarEdge HD-Wave inverter.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-[var(--accent)] border-4 border-white shadow-md animate-pulse"></div>
+                        <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-200">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-900 text-base">Phase 4: Utility Smart Meter Swap & PTO (Permission to Operate)</h4>
+                                <span class="text-xs font-bold bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">In Progress</span>
+                            </div>
+                            <p class="text-xs text-gray-600">Target: Oct 14, 2026 &bull; Utility technician scheduled to replace analog meter with bi-directional smart meter.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="relative pl-6">
+                        <div class="absolute -left-[19px] top-1 w-5 h-5 rounded-full bg-gray-300 border-4 border-white"></div>
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200/60 opacity-60">
+                            <div class="flex justify-between items-center mb-1">
+                                <h4 class="font-bold text-gray-900 text-base">Phase 5: Full Net Energy Metering (NEM 3.0) Live Synchronization</h4>
+                                <span class="text-xs font-bold bg-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full">Upcoming</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Target: Oct 28, 2026 &bull; Automated true-up tariff tracking and surplus clean power exported to Salem grid.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: MILESTONES -->
+            <section id="section-milestones" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-bold text-gray-900">Net Metering & Interconnection Milestones</h2>
+                    <p class="text-sm text-gray-500">Key compliance milestones and scheduled utility sign-offs.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">Passed</span>
+                            <span class="text-xs text-gray-500">Sep 20, 2026</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-base">Milestone 1: Structural Mount & Monocrystalline Panel Activation</h4>
+                        <p class="text-xs text-gray-600">All 24 solar panels tested and producing 9.8 kW DC peak at 98.4% efficiency.</p>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-teal-50/60 border border-teal-200 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold bg-[var(--accent)] text-white px-2.5 py-0.5 rounded-full">Current Target</span>
+                            <span class="text-xs text-gray-500">Oct 14, 2026</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-base">Milestone 2: Utility Bi-Directional Smart Meter Swap</h4>
+                        <p class="text-xs text-gray-600">Utility technician dispatch scheduled for final safety verification and PTO issuance.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: MESSAGES & COLLABORATION -->
+            <section id="section-messages" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Solar Concierge & Technical Support</h2>
+                        <p class="text-sm text-gray-500">Direct message channel with Stackly Clean Energy engineers.</p>
+                    </div>
+                    <span class="flex items-center gap-1.5 text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Concierge Online
+                    </span>
+                </div>
+
+                <!-- Message Thread -->
+                <div class="space-y-4 max-h-96 overflow-y-auto p-2">
+                    <!-- Incoming message -->
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-full bg-emerald-800 text-white flex items-center justify-center text-xs font-bold shrink-0">ST</div>
+                        <div class="bg-gray-100 p-4 rounded-2xl rounded-tl-none max-w-lg text-sm text-gray-800">
+                            <p class="font-bold text-xs text-gray-500 mb-1">Stackly Solar Concierge &bull; Yesterday, 4:20 PM</p>
+                            Hi Sarah! Your rooftop solar arrays produced 48.6 kWh today, offsetting 98% of your home's HVAC load. Let us know if you want us to adjust your Powerwall backup reserve.
+                        </div>
+                    </div>
+
+                    <!-- Outgoing message -->
+                    <div class="flex items-start gap-3 justify-end">
+                        <div class="bg-[var(--primary)] text-white p-4 rounded-2xl rounded-tr-none max-w-lg text-sm">
+                            <p class="font-bold text-xs text-emerald-400 mb-1">Sarah Jenkins &bull; Today, 10:15 AM</p>
+                            That is fantastic! Power bill last month was down to the minimum $12 connection fee. Can we schedule the winter inverter checkup?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reply Box -->
+                <div class="flex items-center gap-2 pt-2 border-t border-gray-100">
+                    <input type="text" placeholder="Type your message or technical inquiry..." class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-5 py-3 text-sm focus:outline-none focus:border-[var(--accent)] transition-colors">
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--primary)] text-white p-3 rounded-full hover:bg-black transition-colors cursor-pointer">
+                        <i class="ph ph-paper-plane-tilt text-lg text-[var(--accent)]"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 6: DESIGN REVIEWS & FEEDBACK -->
+            <section id="section-reviews" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">System Health & Inverter Diagnostics</h2>
+                        <p class="text-sm text-gray-500">Review automated telemetry diagnostics and authorize firmware upgrades.</p>
+                    </div>
+                    <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">1 Action Pending</span>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl p-6 bg-gray-50/50 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">SolarEdge HD-Wave Inverter Firmware 4.19 Upgrade</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">Automated Telemetry Diagnostics &bull; Efficiency Optimization</p>
+                        </div>
+                        <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-md">Update Available</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Firmware 4.19 enhances MPPT rapid tracking by 3.4% during partly cloudy weather and includes updated IEEE 1547-2018 anti-islanding protocol compliance.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="showToast('Firmware 4.19 upgrade queued for 2:00 AM!', 'success')" class="bg-emerald-600 text-white font-bold px-5 py-2 rounded-xl text-xs hover:bg-emerald-700 transition-colors flex items-center gap-1.5 cursor-pointer">
+                            <i class="ph ph-check"></i> Authorize OTA Firmware Update
+                        </button>
+                        <button onclick="showToast('In-person inspection request logged.', 'info')" class="bg-white border border-gray-300 text-gray-700 font-bold px-5 py-2 rounded-xl text-xs hover:bg-gray-50 transition-colors flex items-center gap-1.5 cursor-pointer">
+                            <i class="ph ph-wrench"></i> Request Field Technician Inspection
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: MEETINGS SCHEDULE -->
+            <section id="section-meetings" class="dashboard-section premium-card p-4 sm:p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Technician Appointments & Field Audits</h2>
+                        <p class="text-xs sm:text-sm text-gray-500">Upcoming on-site maintenance, annual panel washes, and warranty inspections.</p>
+                    </div>
+                    <button onclick="window.location.href='404.html'" class="bg-[var(--primary)] text-white text-xs font-bold px-4 py-2.5 rounded-full hover:bg-black transition-colors flex items-center gap-2 cursor-pointer shrink-0">
+                        <i class="ph ph-plus"></i> Schedule Service Visit
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 sm:p-5 rounded-2xl border border-gray-200 bg-white space-y-2">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span class="text-xs font-bold text-white bg-emerald-800 px-2.5 py-0.5 rounded-full">Confirmed Visit</span>
+                            <span class="text-xs text-gray-400">Oct 24 &bull; 45 mins</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm sm:text-base">Annual Solar Panel Deep Wash & Micro-Cracks Audit</h4>
+                        <p class="text-xs text-gray-500">Certified Field Technician: Marcus Reed &bull; Truck Unit #08</p>
+                        <button onclick="window.location.href='404.html'" class="mt-2 text-xs font-bold text-emerald-600 hover:underline flex items-center gap-1 cursor-pointer">
+                            <i class="ph ph-calendar"></i> Reschedule Appointment
+                        </button>
+                    </div>
+
+                    <div class="p-4 sm:p-5 rounded-2xl border border-gray-200 bg-white space-y-2">
+                        <div class="flex flex-wrap justify-between items-center gap-2">
+                            <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2.5 py-0.5 rounded-full">Automated Test</span>
+                            <span class="text-xs text-gray-400">Every 90 Days</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm sm:text-base">Quarterly Battery Storage Load & Thermal Test</h4>
+                        <p class="text-xs text-gray-500">Remote Cloud Diagnostic &bull; Powerwall 3 Inverter Telemetry</p>
+                        <button onclick="window.location.href='404.html'" class="mt-2 text-xs font-bold text-gray-600 hover:text-black flex items-center gap-1 cursor-pointer">
+                            <i class="ph ph-file-text"></i> View Diagnostic Logs
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: INVOICES & FINANCIALS -->
+            <section id="section-invoices" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Utility Statements & Hardware Billing</h2>
+                        <p class="text-sm text-gray-500">Review PGE net metering statements, installation balance receipts, and service invoices.</p>
+                    </div>
+                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Total Paid: $12,250</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-xs font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100">
+                                <th class="pb-3">Invoice ID</th>
+                                <th class="pb-3">Description</th>
+                                <th class="pb-3">Amount</th>
+                                <th class="pb-3">Date</th>
+                                <th class="pb-3">Status</th>
+                                <th class="pb-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr>
+                                <td class="py-4 font-bold text-gray-900">#SOL-204</td>
+                                <td class="py-4 text-gray-600">Tesla Powerwall 3 Final Commissioning Balance</td>
+                                <td class="py-4 font-bold text-gray-900">$6,125.00</td>
+                                <td class="py-4 text-gray-500">Due Oct 15, 2026</td>
+                                <td class="py-4"><span class="text-xs font-bold bg-red-100 text-red-700 px-2.5 py-0.5 rounded-full">Pending</span></td>
+                                <td class="py-4 text-right">
+                                    <button onclick="window.location.href='404.html'" class="bg-[var(--primary)] text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-black transition-colors cursor-pointer">Pay Now</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 font-bold text-gray-900">#SOL-203</td>
+                                <td class="py-4 text-gray-600">9.8 kW Tier-1 Monocrystalline Hardware Deposit</td>
+                                <td class="py-4 font-bold text-gray-900">$6,125.00</td>
+                                <td class="py-4 text-gray-500">Sep 15, 2026</td>
+                                <td class="py-4"><span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Paid</span></td>
+                                <td class="py-4 text-right">
+                                    <button onclick="window.location.href='404.html'" class="text-xs font-semibold text-gray-500 hover:text-black cursor-pointer"><i class="ph ph-download-simple"></i> Receipt</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 font-bold text-gray-900">#SOL-201</td>
+                                <td class="py-4 text-gray-600">City Engineering Survey & Interconnection Filing</td>
+                                <td class="py-4 font-bold text-gray-900">$1,250.00</td>
+                                <td class="py-4 text-gray-500">Aug 28, 2026</td>
+                                <td class="py-4"><span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full">Paid</span></td>
+                                <td class="py-4 text-right">
+                                    <button onclick="window.location.href='404.html'" class="text-xs font-semibold text-gray-500 hover:text-black cursor-pointer"><i class="ph ph-download-simple"></i> Receipt</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 9: CONTRACTS -->
+            <section id="section-contracts" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Solar Warranty & Purchase Agreements</h2>
+                        <p class="text-sm text-gray-500">Executed warranties, statements of work, and utility interconnection agreements.</p>
+                    </div>
+                    <span class="text-xs font-bold bg-gray-100 text-gray-700 px-3 py-1 rounded-full">2 Executed Contracts</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl border border-gray-200 bg-gray-50/50 space-y-2">
+                        <i class="ph-fill ph-signature text-2xl text-emerald-700"></i>
+                        <h4 class="font-bold text-gray-900">25-Year Performance & Power Warranty</h4>
+                        <p class="text-xs text-gray-500">Signed Aug 25, 2026 &bull; Guarantees 85%+ generation through 2051</p>
+                        <button onclick="window.location.href='404.html'" class="text-xs font-bold text-[var(--primary)] hover:underline pt-2 block cursor-pointer">Download Warranty Certificate (PDF) &rarr;</button>
+                    </div>
+                    <div class="p-4 rounded-2xl border border-gray-200 bg-gray-50/50 space-y-2">
+                        <i class="ph-fill ph-shield-check text-2xl text-emerald-700"></i>
+                        <h4 class="font-bold text-gray-900">Utility Net Energy Metering (NEM 3.0) Interconnection Contract</h4>
+                        <p class="text-xs text-gray-500">PGE Grid Contract &bull; Encrypted Digital Signature</p>
+                        <button onclick="window.location.href='404.html'" class="text-xs font-bold text-[var(--primary)] hover:underline pt-2 block cursor-pointer">Download Utility Agreement (PDF) &rarr;</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: PROPOSALS & SCOPE -->
+            <section id="section-proposals" class="dashboard-section premium-card p-6 md:p-8 space-y-6">
+                <div class="border-b border-gray-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Engineering Proposal & System Specifications</h2>
+                        <p class="text-sm text-gray-500">Full solar array layout, electrical single-line diagram, and projected 25-year ROI breakdown.</p>
+                    </div>
+                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Active SOW</span>
+                </div>
+                <div class="p-5 rounded-2xl border border-gray-200 bg-gray-50/50 space-y-3">
+                    <i class="ph-fill ph-file-text text-3xl text-gray-800"></i>
+                    <h4 class="font-bold text-gray-900 text-lg">Salem Residence 9.8 kW DC Rooftop Solar + 13.5 kWh Powerwall 3 Specification (SOW #1)</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Includes 24 Tier-1 410W Monocrystalline PV Modules, SolarEdge HD-Wave Inverter with Rapid Shutdown DC optimizers, Tesla Powerwall 3 Whole-Home Backup switch, and 24/7 cloud telemetry integration.
+                    </p>
+                    <button onclick="window.location.href='404.html'" class="text-xs font-bold text-[var(--primary)] hover:underline block pt-2 cursor-pointer">Download Detailed Scope & ROI Analysis (PDF) &rarr;</button>
+                </div>
+            </section>
+
+            <!-- SECTION 11: SETTINGS -->
+            <section id="section-settings" class="dashboard-section premium-card p-6 md:p-8 space-y-8">
+                <div class="border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-bold text-gray-900">System Settings & Profile Preferences</h2>
+                    <p class="text-sm text-gray-500">Manage solar telemetry notifications, homeowner profile data, and security credentials.</p>
+                </div>
+
+                <!-- Telemetry Notifications -->
+                <div class="space-y-4 max-w-xl">
+                    <h3 class="text-base font-bold text-gray-900">Solar Telemetry Notifications</h3>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div>
+                            <p class="font-bold text-gray-900 text-sm">Daily Solar Production Digest</p>
+                            <p class="text-xs text-gray-500">Receive an automated evening digest of total kWh generated and carbon offset.</p>
+                        </div>
+                        <input type="checkbox" checked class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div>
+                            <p class="font-bold text-gray-900 text-sm">Grid Outage & Battery Switchover Alerts</p>
+                            <p class="text-xs text-gray-500">Instant push notifications when utility power drops and Powerwall engages.</p>
+                        </div>
+                        <input type="checkbox" checked class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div>
+                            <p class="font-bold text-gray-900 text-sm">Utility True-Up Reminders</p>
+                            <p class="text-xs text-gray-500">Automatic billing notice 14 days before PGE annual net billing close.</p>
+                        </div>
+                        <input type="checkbox" checked class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Homeowner Profile Form (Integrated with validation.js) -->
+                <div class="card p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-5 max-w-2xl">
+                    <div class="border-b border-gray-200/60 pb-3">
+                        <h3 class="text-lg font-bold text-gray-900">Homeowner Profile Information</h3>
+                        <p class="text-xs text-gray-500">Update your verified account name, billing email, and installation location.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">First Name *</label>
+                            <input type="text" id="profileFirstName" placeholder="Sarah" value="Sarah" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Last Name *</label>
+                            <input type="text" id="profileLastName" placeholder="Jenkins" value="Jenkins" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Account Email *</label>
+                            <input type="email" id="profileEmailInput" placeholder="sarah.jenkins@solargrid.com" value="sarah.jenkins@solargrid.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
+                            <input type="tel" id="profilePhone" placeholder="5035550192" value="5035550192" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Installation Location *</label>
+                            <input type="text" id="profileLocation" placeholder="Salem, OR" value="Salem, OR" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Time Zone *</label>
+                            <input type="text" id="profileTimeZone" placeholder="Pacific Time (PT)" value="Pacific Time (PT)" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                    </div>
+
+                    <button id="saveProfileBtn" class="px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                        <i class="ph ph-floppy-disk text-sm text-[var(--accent)]"></i> Save Profile Settings
+                    </button>
+                </div>
+
+                <!-- Change Password Form (Integrated with validation.js) -->
+                <div class="card p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-5 max-w-2xl">
+                    <div class="border-b border-gray-200/60 pb-3">
+                        <h3 class="text-lg font-bold text-gray-900">Security & Password Update</h3>
+                        <p class="text-xs text-gray-500">Protect your solar telemetry dashboard with a strong 8+ character password.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Current Password *</label>
+                        <input type="password" id="profileCurrentPassword" placeholder="••••••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">New Password *</label>
+                            <input type="password" id="profileNewPassword" placeholder="Min 8 chars, letters, digits, symbols" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Confirm New Password *</label>
+                            <input type="password" id="profileConfirmPassword" placeholder="Repeat new password" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                        </div>
+                    </div>
+
+                    <button id="savePasswordBtn" class="px-6 py-2.5 bg-emerald-700 text-white text-xs font-bold rounded-xl hover:bg-emerald-800 transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                        <i class="ph ph-lock-key text-sm"></i> Update Portal Password
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 12: HELP & FAQS -->
+            <section id="section-help" class="dashboard-section premium-card p-6 md:p-8 space-y-8">
+                <div class="border-b border-gray-100 pb-4">
+                    <h2 class="text-2xl font-bold text-gray-900">Solar Support & Technical FAQs</h2>
+                    <p class="text-sm text-gray-500">Create a support ticket or explore common clean energy inquiries.</p>
+                </div>
+
+                <!-- Open Ticket Form (Integrated with validation.js) -->
+                <div class="card p-6 bg-gray-50/70 border border-gray-200/80 rounded-2xl space-y-4 max-w-2xl">
+                    <div class="border-b border-gray-200/60 pb-3">
+                        <h3 class="text-lg font-bold text-gray-900">Open a Solar Support Ticket</h3>
+                        <p class="text-xs text-gray-500">Directly alert our Salem engineering team. Average response time: 2 hours.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Ticket Subject *</label>
+                        <input type="text" id="ticketSubject" placeholder="E.g., Inverter communication drop after rain" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Category *</label>
+                        <select id="ticketCategory" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors">
+                            <option value="">Select Category</option>
+                            <option value="inverter">Inverter & MPPT Optimization</option>
+                            <option value="battery">Battery Storage & Backup Reserve</option>
+                            <option value="billing">NEM 3.0 Utility Net Metering</option>
+                            <option value="panel">Panel Cleaning & Physical Inspection</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1.5">Detailed Description *</label>
+                        <textarea id="ticketDesc" rows="3" placeholder="Please describe the issue or inquiry in detail (minimum 15 characters)..." class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[var(--accent)] bg-white transition-colors"></textarea>
+                    </div>
+
+                    <button id="submitTicketBtn" class="px-6 py-2.5 bg-[var(--primary)] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors flex items-center gap-2 cursor-pointer shadow-sm">
+                        <i class="ph ph-paper-plane text-sm text-[var(--accent)]"></i> Submit Support Ticket
+                    </button>
+                </div>
+
+                <!-- FAQs -->
+                <div class="space-y-3 max-w-2xl">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Frequently Asked Questions</h3>
+                    <details class="bg-gray-50 p-4 rounded-2xl cursor-pointer border border-gray-100">
+                        <summary class="font-bold text-sm text-gray-900">How does net energy metering true-up work with PGE?</summary>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                            Under Oregon NEM 3.0 regulations, surplus kilowatt-hours exported by your solar system during daylight hours are credited to your account at retail value. Every October, PGE calculates your cumulative annual balance in a true-up settlement.
+                        </p>
+                    </details>
+                    <details class="bg-gray-50 p-4 rounded-2xl cursor-pointer border border-gray-100">
+                        <summary class="font-bold text-sm text-gray-900">What happens during a neighborhood grid outage?</summary>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                            With your Tesla Powerwall 3 integration, microgrid isolation triggers automatically within 10 milliseconds. Your essential home circuits remain powered continuously from stored battery power and active daytime solar generation.
+                        </p>
+                    </details>
+                    <details class="bg-gray-50 p-4 rounded-2xl cursor-pointer border border-gray-100">
+                        <summary class="font-bold text-sm text-gray-900">How often do solar panels need professional cleaning?</summary>
+                        <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                            In Oregon, seasonal rains naturally clear light dust. However, an annual spring wash and micro-inverter diagnostic by our certified technicians is recommended to preserve the 98%+ peak efficiency warranty.
+                        </p>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Chart.js Configuration for Solar Telemetry
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#52665D';
+
+            const ctx = document.getElementById('velocityChart').getContext('2d');
+            
+            // Solar Emerald gradient for area chart
+            const gradient = ctx.createLinearGradient(0, 0, 0, 260);
+            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.28)');
+            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['06:00 AM', '08:00 AM', '10:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM'],
+                    datasets: [{
+                        label: 'Solar Output (kW)',
+                        data: [0.6, 2.4, 6.8, 9.8, 8.9, 5.2, 1.8, 0.1],
+                        borderColor: '#10B981', // Solar Emerald
+                        backgroundColor: gradient,
+                        borderWidth: 2.5,
+                        tension: 0.4, // Smooth curve
+                        fill: true,
+                        pointBackgroundColor: '#F59E0B', // Sun gold points
+                        pointBorderColor: '#0D2119',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0D2119',
+                            titleColor: '#fff',
+                            bodyColor: '#10B981',
+                            padding: 12,
+                            displayColors: false,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' kW Production';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2ece6',
+                                drawBorder: false,
+                            },
+                            ticks: { 
+                                maxTicksLimit: 5,
+                                callback: function(value) { return value + ' kW'; }
+                            }
+                        },
+                        x: {
+                            grid: { display: false, drawBorder: false }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+
+            // Display locally saved user email if present
+            const savedEmail = localStorage.getItem('currentUserEmail') || localStorage.getItem('userEmail');
+            if (savedEmail) {
+                const emailEl = document.getElementById('user-profile-email');
+                const nameEl = document.getElementById('user-profile-name');
+                if (emailEl) emailEl.textContent = savedEmail;
+                if (nameEl) {
+                    const namePart = savedEmail.split('@')[0];
+                    const formattedName = namePart.split(/[\._-]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    nameEl.textContent = formattedName || 'Solar Homeowner';
+                }
+            }
+
+            // Logout Logic
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUserEmail');
+                    localStorage.removeItem('currentUserRole');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Mobile Drawer Toggle Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const closeDrawerBtn = document.getElementById('close-mobile-drawer');
+            const mobileDrawer = document.getElementById('mobile-sidebar-drawer');
+
+            if (mobileMenuBtn && mobileDrawer) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileDrawer.classList.remove('hidden');
+                });
+            }
+            if (closeDrawerBtn && mobileDrawer) {
+                closeDrawerBtn.addEventListener('click', () => {
+                    mobileDrawer.classList.add('hidden');
+                });
+            }
+            if (mobileDrawer) {
+                mobileDrawer.addEventListener('click', (e) => {
+                    if (e.target === mobileDrawer) {
+                        mobileDrawer.classList.add('hidden');
+                    }
+                });
+            }
+
+            // SPA Section Visibility Switcher Handler
+            function showSection(targetId) {
+                const targetElement = document.getElementById(targetId);
+                if (!targetElement) return;
+
+                // Hide all sections
+                document.querySelectorAll('.dashboard-section').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+
+                // Reveal only the selected section
+                targetElement.classList.add('active');
+
+                // Update active highlight indicator on all nav links
+                document.querySelectorAll('aside nav a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === `#${targetId}`) {
+                        link.classList.add('active');
+                    } else if (href && href.startsWith('#section-')) {
+                        link.classList.remove('active');
+                    }
+                });
+
+                // Scroll main container to top
+                const mainContainer = document.getElementById('main-scroll-container');
+                if (mainContainer) mainContainer.scrollTop = 0;
+
+                // Close mobile drawer if open
+                if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+                    mobileDrawer.classList.add('hidden');
+                }
+            }
+
+            // Click listener for section navigation links
+            document.querySelectorAll('a[href^="#section-"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    showSection(targetId);
+                    window.location.hash = targetId;
+                });
+            });
+
+            // Initial load: show hash section or default to dashboard
+            const initialHash = window.location.hash ? window.location.hash.substring(1) : '';
+            if (initialHash && document.getElementById(initialHash)) {
+                showSection(initialHash);
+            } else {
+                showSection('section-dashboard');
+            }
+        });
+
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none';
+                document.body.appendChild(container);
+            }
+            
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-xs font-bold text-white transition-all duration-300 transform translate-y-4 opacity-0 ${
+                type === 'success' ? 'bg-emerald-600' : 'bg-gray-900 border border-gray-700'
+            }`;
+            
+            const icon = type === 'success' ? '<i class="ph-fill ph-check-circle text-lg text-emerald-300"></i>' : '<i class="ph-fill ph-info text-lg text-[var(--accent)]"></i>';
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

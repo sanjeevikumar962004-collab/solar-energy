@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Free Solar Consultation | Stackly</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="validation.js" defer></script>
+    <!-- Google Fonts: Inter for a clean, modern sans-serif look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Tailwind Configuration to match design aesthetics -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#f9f9f9',
+                        accent: '#e5e7eb',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white selection:bg-gray-300 selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 group transition-all" id="logo-text">
+                        <img id="nav-logo-img" src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain transition-all duration-300">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Home</a>
+                    <a href="about.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">About</a>
+                    <a href="services.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Services</a>
+                    <a href="blog.html" class="nav-link text-white hover:text-gray-300 text-sm font-medium transition-colors duration-300">Blog</a>
+                    <a href="contact.html" class="nav-link text-white font-semibold text-sm transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-white">Contact</a>
+                    <a id="login-btn" href="login.html" class="text-black bg-white hover:bg-gray-100 px-6 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-2 shadow-sm border border-transparent">
+                        Login <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gray-300 focus:outline-none transition-colors duration-300" id="mobile-btn-icon">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-xl absolute w-full transition-all duration-300 ease-in-out transform -translate-y-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 sm:px-3 flex flex-col gap-4 mt-4">
+                <a href="index.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Home</a>
+                <a href="about.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">About</a>
+                <a href="services.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Services</a>
+                <a href="blog.html" class="block px-3 py-2 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-black rounded-md">Blog</a>
+                <a href="contact.html" class="block px-3 py-2 text-base font-semibold text-black bg-gray-50 rounded-md">Contact</a>
+                <a id="mobile-login-btn" href="login.html" class="block w-full py-2.5 text-base font-medium text-center text-white bg-black rounded-full hover:bg-gray-800 mt-2">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Hero Banner -->
+    <section class="relative min-h-[65vh] flex items-center justify-center overflow-hidden bg-black text-white pt-24 pb-16">
+        <div class="absolute inset-0 z-0">
+            <img src="images/clean-energy-architecture.webp" alt="Modern clean energy architecture" class="w-full h-full object-cover opacity-45 scale-105 transition-transform duration-1000 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center mt-12">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold tracking-wider uppercase mb-6 text-gray-200">
+                <i class="fa-solid fa-headset text-emerald-400"></i> Salem Engineering Headquarters
+            </div>
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                Let's Power Your Future <br class="hidden sm:inline" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">With Clean Independence.</span>
+            </h1>
+            <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto font-light mb-8 leading-relaxed">
+                Schedule a zero-obligation consultation, request a satellite 3D roof analysis, or visit our Salem facility. We respond to all inquiries within 24 business hours.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#consultation-form" class="bg-white hover:bg-gray-100 text-black px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 shadow-xl hover:scale-105">
+                    Start Consultation Request <i class="fa-solid fa-arrow-down text-xs"></i>
+                </a>
+                <a href="#office-channels" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-7 py-3.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2">
+                    Contact Channels <i class="fa-solid fa-phone text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direct Contact Channels Grid -->
+    <section id="office-channels" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Channel 1: Headquarters -->
+                <div class="bg-secondary rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Headquarters</span>
+                    <h3 class="text-xl font-bold text-black mt-1 mb-2">Salem, Oregon</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                        1024 Sustainable Way, Suite 400<br>Salem, OR 97301
+                    </p>
+                    <p class="text-xs text-gray-500 font-medium">Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 3:00 PM</p>
+                </div>
+
+                <!-- Channel 2: Direct Phone -->
+                <div class="bg-secondary rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Call Us</span>
+                    <h3 class="text-xl font-bold text-black mt-1 mb-2">Direct Phone</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                        Local: <a href="tel:5035550199" class="font-semibold text-black hover:underline">(503) 555-0199</a><br>
+                        Toll-Free: <a href="tel:18007822559" class="font-semibold text-black hover:underline">1-800-STACKLY</a>
+                    </p>
+                    <p class="text-xs text-emerald-600 font-semibold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Lines open now
+                    </p>
+                </div>
+
+                <!-- Channel 3: Email Directory -->
+                <div class="bg-secondary rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Email Inquiries</span>
+                    <h3 class="text-xl font-bold text-black mt-1 mb-2">Electronic Mail</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                        General: <a href="mailto:hello@stacklyenergy.com" class="font-semibold text-black hover:underline">hello@stacklyenergy.com</a><br>
+                        Engineering: <a href="mailto:support@stacklyenergy.com" class="font-semibold text-black hover:underline">support@stacklyenergy.com</a>
+                    </p>
+                    <p class="text-xs text-gray-500 font-medium">Average response: &lt; 2 hours</p>
+                </div>
+
+                <!-- Channel 4: 24/7 Rapid Telemetry -->
+                <div class="bg-secondary rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center text-lg mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Emergency Support</span>
+                    <h3 class="text-xl font-bold text-black mt-1 mb-2">Grid Telemetry</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                        Emergency Hotline: <br>
+                        <a href="tel:5035550188" class="font-semibold text-black hover:underline">(503) 555-0188</a>
+                    </p>
+                    <p class="text-xs text-gray-500 font-medium">24/7 On-Call Marion County Dispatch</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultation Form & Client Assurance Split Section -->
+    <section id="consultation-form" class="py-24 bg-secondary border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                
+                <!-- Left: Interactive Form -->
+                <div class="lg:col-span-7 bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
+                    <div class="mb-8">
+                        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full inline-block mb-3">
+                            Free Assessment
+                        </span>
+                        <h2 class="text-3xl font-bold text-black mb-2">Request Your Tailored Energy Plan</h2>
+                        <p class="text-xs md:text-sm text-gray-500">
+                            Tell us about your property. We'll run satellite roof irradiance modeling and prepare a custom proposal.
+                        </p>
+                    </div>
+
+                    <form id="contact-page-form" class="space-y-6" novalidate>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="contact-name" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">First & Last Name *</label>
+                                <input type="text" id="contact-name" required placeholder="Alex Morgan" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="contact-name-error">Please enter your full name (minimum 2 letters)</span>
+                            </div>
+                            <div>
+                                <label for="contact-email" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Email Address *</label>
+                                <input type="email" id="contact-email" required placeholder="alex@example.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="contact-email-error">Please enter a valid email address</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="contact-phone" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Phone Number *</label>
+                                <input type="tel" id="contact-phone" required placeholder="(503) 555-0123" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="contact-phone-error">Please enter a valid 10-digit phone number</span>
+                            </div>
+                            <div>
+                                <label for="contact-city" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Property City / Zip *</label>
+                                <input type="text" id="contact-city" required placeholder="Salem, OR 97302" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white" />
+                                <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="contact-city-error">Please enter your property city or zip code</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="contact-property-type" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Property Type</label>
+                                <select id="contact-property-type" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white">
+                                    <option value="single-family">Single Family Home</option>
+                                    <option value="townhouse">Townhouse / Condo</option>
+                                    <option value="commercial">Commercial Building</option>
+                                    <option value="agricultural">Agricultural / Vineyard</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="contact-bill" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Average Monthly Electric Bill</label>
+                                <select id="contact-bill" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white">
+                                    <option value="100-200">$100 - $200 / month</option>
+                                    <option value="200-350" selected>$200 - $350 / month</option>
+                                    <option value="350-500">$350 - $500 / month</option>
+                                    <option value="500+">$500+ / month</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-2">Solutions of Interest (Select All That Apply)</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                <label class="cursor-pointer border border-gray-200 rounded-xl p-3 text-center text-xs font-semibold hover:border-black transition-colors has-[:checked]:bg-black has-[:checked]:text-white">
+                                    <input type="checkbox" checked class="sr-only" /> Rooftop Solar
+                                </label>
+                                <label class="cursor-pointer border border-gray-200 rounded-xl p-3 text-center text-xs font-semibold hover:border-black transition-colors has-[:checked]:bg-black has-[:checked]:text-white">
+                                    <input type="checkbox" checked class="sr-only" /> Battery Backup
+                                </label>
+                                <label class="cursor-pointer border border-gray-200 rounded-xl p-3 text-center text-xs font-semibold hover:border-black transition-colors has-[:checked]:bg-black has-[:checked]:text-white">
+                                    <input type="checkbox" class="sr-only" /> EV Fast Charger
+                                </label>
+                                <label class="cursor-pointer border border-gray-200 rounded-xl p-3 text-center text-xs font-semibold hover:border-black transition-colors has-[:checked]:bg-black has-[:checked]:text-white">
+                                    <input type="checkbox" class="sr-only" /> Smart Energy Hub
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="contact-message" class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">Project Details or Special Notes</label>
+                            <textarea id="contact-message" rows="3" placeholder="Tell us about your roof age, shading, or specific backup needs..." class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-black transition-colors bg-gray-50 focus:bg-white"></textarea>
+                            <span class="text-[11px] text-red-500 font-medium hidden mt-1 block" id="contact-message-error">Notes must be at least 5 characters if entered</span>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full py-4 bg-black text-white font-bold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 text-sm hover:scale-[1.01]">
+                            <span>Submit Consultation Request</span> <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                        <p class="text-[11px] text-gray-400 text-center">Your privacy is respected. No spam, ever.</p>
+                    </form>
+                </div>
+
+                <!-- Right: Assurance & Benefits -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">The Stackly Standard</p>
+                        <h3 class="text-3xl font-bold text-black mb-4">What Happens After You Reach Out?</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            We eliminate the aggressive sales tactics typical of solar installers. You interact directly with licensed clean energy specialists.
+                        </p>
+                    </div>
+
+                    <!-- Step-by-Step Guarantee Cards -->
+                    <div class="space-y-4">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                01
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-black mb-1">Satellite Solar Analysis (24h)</h4>
+                                <p class="text-xs text-gray-600">Our engineering team analyzes roof slope, tree obstruction, and historical Salem solar irradiance to compute exact kWh generation.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                02
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-black mb-1">Tailored Blueprint & ROI Model</h4>
+                                <p class="text-xs text-gray-600">You receive a transparent financial breakdown with equipment specs, estimated federal & Oregon rebates, and guaranteed annual savings.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start">
+                            <div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                03
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-base text-black mb-1">Zero-Pressure On-Site Walk</h4>
+                                <p class="text-xs text-gray-600">A certified master electrician checks your electrical panel and roof structure. Zero pushy salesmen, zero obligations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trust Rating Card -->
+                    <div class="bg-black text-white p-6 rounded-2xl shadow-lg border border-gray-800">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex text-yellow-400 gap-1 text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-gray-300">4.9 / 5.0 Rating</span>
+                        </div>
+                        <p class="text-xs text-gray-300 italic mb-3">
+                            "Stackly handled the Marion County permits, utility interconnection with PGE, and had our 10kW system generating power in under 3 weeks!"
+                        </p>
+                        <p class="text-xs font-bold text-white">&mdash; Marcus & David T., South Salem Residents</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Process Section from Home Page -->
+    <section id="process" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 mb-20">
+                <div class="lg:w-1/4">
+                    <h2 class="text-xl font-medium text-gray-900 mb-6 border-b border-gray-300 pb-2">Our Process</h2>
+                    <ul class="space-y-4">
+                        <li><a href="#consultation-form" class="text-black font-semibold flex items-center justify-between group">Consultation <i class="fa-solid fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300"></i></a></li>
+                        <li><span class="text-gray-500">Planning</span></li>
+                        <li><span class="text-gray-500">Installation</span></li>
+                    </ul>
+                </div>
+                <div class="lg:w-3/4">
+                    <h3 class="text-5xl md:text-6xl font-bold leading-tight mb-6">Transform<br>Your Home in<br>Three Steps</h3>
+                    <p class="text-xl text-gray-600 max-w-lg mb-8">Experience a seamless transition to clean energy with our easy three-step process.</p>
+                    <a href="#consultation-form" class="inline-flex items-center text-black font-semibold border-b border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">
+                        Get Started <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Steps List -->
+            <div class="space-y-24">
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2 order-2 md:order-1">
+                        <span class="text-sm font-bold text-gray-400 mb-2 block">01</span>
+                        <h4 class="text-3xl font-bold mb-4">Initial Consultation and Guidance</h4>
+                        <p class="text-gray-600 mb-6">Book a free consultation where we'll discuss your smart home needs and energy goals, tailoring a solution specifically for your Salem property.</p>
+                        <a href="#consultation-form" class="bg-black text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
+                            Book Now <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="md:w-1/2 order-1 md:order-2 rounded-2xl overflow-hidden h-80 w-full shadow-lg">
+                        <img src="images/consultation.webp" alt="Consultation" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2 rounded-2xl overflow-hidden h-80 w-full shadow-lg">
+                        <img src="images/planning.webp" alt="Planning" class="w-full h-full object-cover">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="text-sm font-bold text-gray-400 mb-2 block">02</span>
+                        <h4 class="text-3xl font-bold mb-4">Tailored Energy Plan</h4>
+                        <p class="text-gray-600 mb-6">Receive a customized energy plan designed to optimize efficiency and sustainability for your home based on comprehensive data analysis.</p>
+                        <a href="services.html" class="bg-white border border-gray-200 text-black px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors inline-flex items-center gap-2">
+                            Learn More <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2 order-2 md:order-1">
+                        <span class="text-sm font-bold text-gray-400 mb-2 block">03</span>
+                        <h4 class="text-3xl font-bold mb-4">Quality Installation and Support</h4>
+                        <p class="text-gray-600">Our expert technicians ensure a smooth installation process, followed by ongoing support to maximize your system's performance.</p>
+                    </div>
+                    <div class="md:w-1/2 order-1 md:order-2 rounded-2xl overflow-hidden h-80 w-full shadow-lg">
+                        <img src="images/installation.webp" alt="Installation" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Salem Regional Service Coverage Map Section -->
+    <section class="py-24 bg-secondary border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">Service Reach</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-black mb-4">Serving Salem & The Willamette Valley</h2>
+                <p class="text-gray-600">Our certified installation crews provide full turnkey coverage throughout Marion, Polk, Linn, and Yamhill counties.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 lg:p-12 shadow-sm border border-gray-100 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <h3 class="text-2xl font-bold text-black">Active Service Communities</h3>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-black"></i> <strong>Salem Metro</strong> (North, South, West Salem)</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-black"></i> <strong>Keizer & Brooks</strong></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-black"></i> <strong>Silverton & Mount Angel</strong></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-black"></i> <strong>Albany & Corvallis</strong></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-black"></i> <strong>McMinnville & Dundee Wine Country</strong></li>
+                    </ul>
+
+                    <div class="p-4 rounded-2xl bg-secondary border border-gray-100">
+                        <p class="text-xs font-bold uppercase tracking-wider text-black mb-1">Guaranteed Service Radius</p>
+                        <p class="text-xs text-gray-600">Emergency repair and system monitoring dispatch within 48 hours anywhere within 45 miles of our downtown Salem office.</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 rounded-2xl overflow-hidden h-80 lg:h-96 relative bg-gray-900 border border-gray-200 shadow-md">
+                    <!-- Stylized Map Graphic Visual -->
+                    <img src="images/regional-map.webp" alt="Regional aerial view" class="w-full h-full object-cover opacity-60">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                    
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-white">
+                        <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl mb-4 border border-white/30 animate-bounce">
+                            <i class="fa-solid fa-location-dot text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-1">Stackly Energy Hub & Operations</h4>
+                        <p class="text-xs text-gray-300 max-w-sm mb-4">1024 Sustainable Way, Salem, OR 97301</p>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="px-5 py-2 rounded-full bg-white text-black text-xs font-bold hover:bg-gray-100 transition-colors shadow-lg">
+                            Get Directions on Google Maps <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultation FAQ Section -->
+    <section class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Clear Answers</p>
+                <h2 class="text-3xl md:text-4xl font-bold">Consultation Questions</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center font-bold text-lg hover:text-gray-600 transition-colors faq-toggle">
+                        <span>Is the satellite roof assessment really 100% free?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 text-gray-600 text-sm leading-relaxed hidden faq-answer">
+                        Yes, completely free. We utilize high-resolution aerial photogrammetry and LIDAR shade simulation data to model your roof and deliver your custom proposal before you commit to anything.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center font-bold text-lg hover:text-gray-600 transition-colors faq-toggle">
+                        <span>Do you offer $0-down solar financing in Oregon?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 text-gray-600 text-sm leading-relaxed hidden faq-answer">
+                        Yes. We partner with local credit unions across the Pacific Northwest to provide flexible $0-down solar ownership loans. In most cases, your new fixed monthly solar loan payment is lower than your previous utility bill from day one.
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center font-bold text-lg hover:text-gray-600 transition-colors faq-toggle">
+                        <span>How long does the entire installation process take?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 text-gray-600 text-sm leading-relaxed hidden faq-answer">
+                        Physical roof installation typically takes just 1 to 2 days. The remaining time (usually 2 to 3 weeks) is spent managing Marion County building permits, electrical inspections, and PGE/Salem Electric utility meter swaps—all handled entirely by our in-house team.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reused Section: Huge Contact Footer Area from Home Page -->
+    <footer id="contact" class="bg-black text-white pt-24 pb-12 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Massive typography overlay -->
+            <div class="relative mb-20 whitespace-nowrap overflow-hidden">
+                <h2 class="text-[15vw] font-black leading-none opacity-20 tracking-tighter mix-blend-overlay">Contact Contact Contact</h2>
+                <div class="absolute inset-0 flex flex-col justify-center items-start">
+                    <h3 class="text-3xl md:text-5xl font-bold max-w-lg leading-tight mb-8 relative z-10 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
+                        Explore Smart Solutions for Eco-Friendly Living in Salem
+                    </h3>
+                    <a href="#consultation-form" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors inline-flex items-center gap-2 relative z-10">
+                        Get Started <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-t border-gray-800 pt-16">
+                <div>
+                    <div class="mb-4">
+                        <a href="index.html" class="inline-block transition-opacity hover:opacity-80">
+                            <img src="images/stackly-logo-light.webp" alt="Stackly Clean Energy" class="h-8 w-auto object-contain">
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Your Smart Home Awaits.</p>
+                    <p class="text-xs text-gray-500">Made with <i class="fa-solid fa-heart text-red-800 mx-1"></i> by Stackly Tech</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Pages</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="blog.html" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors text-white font-medium">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Solutions</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="services.html#residential" class="hover:text-white transition-colors">Residential Solar</a></li>
+                        <li><a href="services.html#battery" class="hover:text-white transition-colors">Battery Storage</a></li>
+                        <li><a href="services.html#smart-home" class="hover:text-white transition-colors">Smart Automation</a></li>
+                        <li><a href="services.html#calculator" class="hover:text-white transition-colors">Savings Calculator</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6">Connect & Portals</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="user-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-house-signal text-xs"></i> User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="hover:text-white transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs"></i> Admin Dashboard</a></li>
+                        <li><a href="login.html" class="hover:text-white transition-colors">Login Portal</a></li>
+                        <li><a href="signup.html" class="hover:text-white transition-colors">Create Account</a></li>
+                        <li><a href="404.html" class="hover:text-white transition-colors">404 Error Page</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2026 Stackly Energy Salem. All rights reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white" aria-label="X (formerly Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-white" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-white" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Toast Notification -->
+    <div id="general-toast" class="fixed bottom-6 right-6 z-50 bg-black text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 border border-gray-800">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center" id="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <p class="text-sm font-semibold" id="toast-title">Request Received!</p>
+            <p class="text-xs text-gray-400" id="toast-message">Our Salem engineering team will contact you shortly.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Navbar Scroll Effect ---
+            const navbar = document.getElementById('navbar');
+            const logoText = document.getElementById('logo-text');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const loginBtn = document.getElementById('login-btn');
+            
+            window.addEventListener('scroll', () => {
+                const navLogo = document.getElementById('nav-logo-img');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md');
+                    navbar.classList.remove('bg-transparent', 'py-4');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-dark.webp';
+                    logoText.classList.remove('text-white');
+                    logoText.classList.add('text-black');
+                    mobileBtn.classList.remove('text-white');
+                    mobileBtn.classList.add('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-white', 'hover:text-gray-300');
+                        link.classList.add('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.remove('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.add('bg-black', 'text-white', 'hover:bg-gray-800');
+                } else {
+                    navbar.classList.remove('bg-white', 'shadow-md');
+                    navbar.classList.add('bg-transparent');
+                    if (navLogo) navLogo.src = 'images/stackly-logo-light.webp';
+                    logoText.classList.add('text-white');
+                    logoText.classList.remove('text-black');
+                    mobileBtn.classList.add('text-white');
+                    mobileBtn.classList.remove('text-black');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.add('text-white', 'hover:text-gray-300');
+                        link.classList.remove('text-gray-800', 'hover:text-black');
+                    });
+                    
+                    loginBtn.classList.add('bg-white', 'text-black', 'hover:bg-gray-100');
+                    loginBtn.classList.remove('bg-black', 'text-white', 'hover:bg-gray-800');
+                }
+            });
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenu.classList.remove('-translate-y-full');
+                    }, 10);
+                } else {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                }
+            });
+
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('-translate-y-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                });
+            });
+
+            // --- Toast Utility ---
+            const toast = document.getElementById('general-toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-message');
+
+            function showToast(title, message) {
+                if (!toast) return;
+                toastTitle.textContent = title;
+                toastMsg.textContent = message;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 4500);
+            }
+
+            // --- Contact Form Live & Submit Validation ---
+            const contactForm = document.getElementById('contact-page-form');
+            const submitBtn = document.getElementById('submit-btn');
+
+            const nameInput = document.getElementById('contact-name');
+            const emailInput = document.getElementById('contact-email');
+            const phoneInput = document.getElementById('contact-phone');
+            const cityInput = document.getElementById('contact-city');
+            const messageInput = document.getElementById('contact-message');
+
+            const nameError = document.getElementById('contact-name-error');
+            const emailError = document.getElementById('contact-email-error');
+            const phoneError = document.getElementById('contact-phone-error');
+            const cityError = document.getElementById('contact-city-error');
+            const messageError = document.getElementById('contact-message-error');
+
+            function validateEmailFormat(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            function validatePhoneFormat(phone) {
+                const digits = phone.replace(/\D/g, '');
+                return digits.length >= 10;
+            }
+
+            function validateField(input, errorEl, isValid) {
+                if (!input || !errorEl) return isValid;
+                if (!isValid) {
+                    errorEl.classList.remove('hidden');
+                    input.classList.add('border-red-500', 'bg-red-50/20');
+                    input.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+                } else {
+                    errorEl.classList.add('hidden');
+                    input.classList.remove('border-red-500', 'bg-red-50/20');
+                    input.classList.add('border-emerald-500', 'bg-emerald-50/20');
+                }
+                return isValid;
+            }
+
+            // Live checking on blur and input
+            if (nameInput) {
+                nameInput.addEventListener('blur', () => validateField(nameInput, nameError, nameInput.value.trim().length >= 2));
+                nameInput.addEventListener('input', () => {
+                    if (nameInput.classList.contains('border-red-500')) {
+                        validateField(nameInput, nameError, nameInput.value.trim().length >= 2);
+                    }
+                });
+            }
+            if (emailInput) {
+                emailInput.addEventListener('blur', () => validateField(emailInput, emailError, validateEmailFormat(emailInput.value.trim())));
+                emailInput.addEventListener('input', () => {
+                    if (emailInput.classList.contains('border-red-500')) {
+                        validateField(emailInput, emailError, validateEmailFormat(emailInput.value.trim()));
+                    }
+                });
+            }
+            if (phoneInput) {
+                phoneInput.addEventListener('blur', () => validateField(phoneInput, phoneError, validatePhoneFormat(phoneInput.value.trim())));
+                phoneInput.addEventListener('input', () => {
+                    if (phoneInput.classList.contains('border-red-500')) {
+                        validateField(phoneInput, phoneError, validatePhoneFormat(phoneInput.value.trim()));
+                    }
+                });
+            }
+            if (cityInput) {
+                cityInput.addEventListener('blur', () => validateField(cityInput, cityError, cityInput.value.trim().length >= 3));
+                cityInput.addEventListener('input', () => {
+                    if (cityInput.classList.contains('border-red-500')) {
+                        validateField(cityInput, cityError, cityInput.value.trim().length >= 3);
+                    }
+                });
+            }
+            if (messageInput) {
+                messageInput.addEventListener('blur', () => {
+                    const val = messageInput.value.trim();
+                    validateField(messageInput, messageError, val === '' || val.length >= 5);
+                });
+            }
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const isNameValid = validateField(nameInput, nameError, nameInput.value.trim().length >= 2);
+                    const isEmailValid = validateField(emailInput, emailError, validateEmailFormat(emailInput.value.trim()));
+                    const isPhoneValid = validateField(phoneInput, phoneError, validatePhoneFormat(phoneInput.value.trim()));
+                    const isCityValid = validateField(cityInput, cityError, cityInput.value.trim().length >= 3);
+                    const msgVal = messageInput ? messageInput.value.trim() : '';
+                    const isMsgValid = validateField(messageInput, messageError, msgVal === '' || msgVal.length >= 5);
+
+                    if (!isNameValid || !isEmailValid || !isPhoneValid || !isCityValid || !isMsgValid) {
+                        showToast('Validation Error', 'Please complete all required fields highlighted in red.');
+                        const firstInvalid = [nameInput, emailInput, phoneInput, cityInput, messageInput].find(inp => inp && inp.classList.contains('border-red-500'));
+                        if (firstInvalid) firstInvalid.focus();
+                        return;
+                    }
+                    
+                    const originalBtnContent = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating 3D Solar Model...';
+
+                    setTimeout(() => {
+                        contactForm.reset();
+                        [nameInput, emailInput, phoneInput, cityInput, messageInput].forEach(inp => {
+                            if (inp) inp.classList.remove('border-emerald-500', 'bg-emerald-50/20', 'border-red-500', 'bg-red-50/20');
+                        });
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnContent;
+                        showToast('Consultation Request Confirmed!', 'Thank you! A Salem clean energy engineer will send your 3D roof blueprint within 24 hours.');
+                    }, 1200);
+                });
+            }
+
+            // --- FAQ Accordion Logic ---
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            faqToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const answer = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('i');
+                    const isExpanded = !answer.classList.contains('hidden');
+
+                    document.querySelectorAll('.faq-answer').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('.faq-toggle i').forEach(el => el.classList.remove('rotate-180'));
+
+                    if (!isExpanded) {
+                        answer.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
