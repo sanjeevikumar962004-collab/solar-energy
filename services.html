@@ -480,7 +480,7 @@
             </div>
 
             <!-- Pricing Table Mobile (Cards) -->
-            <div class="md:hidden space-y-6">
+            <div class="lg:hidden space-y-6">
                 <!-- Basic -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                     <h3 class="text-2xl font-bold">Basic</h3>
@@ -497,7 +497,7 @@
                 <div class="bg-black text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 bg-white text-black text-xs font-bold px-3 py-1 rounded-bl-lg">POPULAR</div>
                     <h3 class="text-2xl font-bold">Standard</h3>
-                    <p class="text-sm text-gray-300 mb-4">Comprehensive features</p>
+                    <p class="text-sm text-gray-300 mb-4">Comprehensive features for users</p>
                     <div class="mb-6"><span class="text-4xl font-bold">$25</span><span class="text-gray-400 text-sm">/mo</span></div>
                     <ul class="space-y-3 mb-6 text-sm text-gray-200">
                         <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> All Basic Features</li>
@@ -506,21 +506,33 @@
                     </ul>
                     <a href="contact.html" class="block text-center w-full py-3 rounded-full bg-white text-black font-medium hover:bg-gray-100 transition-colors">Learn More <i class="fa-solid fa-arrow-right ml-1"></i></a>
                 </div>
+                <!-- Premium -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-2xl font-bold">Premium</h3>
+                    <p class="text-sm text-gray-500 mb-4">Tailored for professionals</p>
+                    <div class="mb-6"><span class="text-4xl font-bold">$45</span><span class="text-gray-500 text-sm">/mo</span></div>
+                    <ul class="space-y-3 mb-6 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-black"></i> All Standard Features</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-black"></i> Home Automation Features</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-black"></i> Priority 24/7 Concierge Support</li>
+                    </ul>
+                    <a href="contact.html" class="block text-center w-full py-3 rounded-full border border-gray-300 font-medium hover:bg-gray-50 transition-colors">Sign Up Now <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                </div>
             </div>
 
-            <!-- Pricing Table Desktop -->
-            <div class="hidden md:block overflow-x-auto pb-8">
-                <table class="w-full text-left border-collapse">
+            <!-- Pricing Table Desktop / Tablet with smooth horizontal scroll -->
+            <div class="hidden lg:block overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <table class="w-full min-w-[720px] text-left border-collapse">
                     <thead>
-                        <tr>
+                        <tr class="overflow-visible">
                             <th class="w-1/4 p-4 border-b border-gray-200"></th>
                             <th class="w-1/4 p-4 border-b border-gray-200 text-center">
                                 <h3 class="text-2xl font-bold">Basic</h3>
                                 <p class="text-xs text-gray-500 font-normal mt-1 mb-2">Affordable plans for everyone</p>
                                 <div><span class="text-3xl font-bold">$10</span><span class="text-gray-500 text-xs font-normal"> monthly per user</span></div>
                             </th>
-                            <th class="w-1/4 p-4 border-b border-gray-200 text-center bg-white rounded-t-xl shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] relative">
-                                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-black text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Most Popular</div>
+                            <th class="w-1/4 pt-8 pb-4 px-4 border-b border-gray-200 text-center bg-white rounded-t-xl shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] relative">
+                                <div class="absolute top-2 left-1/2 transform -translate-x-1/2 bg-black text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider whitespace-nowrap">Most Popular</div>
                                 <h3 class="text-2xl font-bold">Standard</h3>
                                 <p class="text-xs text-gray-500 font-normal mt-1 mb-2">Comprehensive features for users</p>
                                 <div><span class="text-3xl font-bold">$25</span><span class="text-gray-500 text-xs font-normal"> monthly per user</span></div>
